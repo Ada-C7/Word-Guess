@@ -12,6 +12,19 @@ class Word
             print '_ '
         end
     end
+
+    def guess
+        @userguess = []
+        @userguess << gets.chomp
+        puts 'You have guessed ' + @userguess.to_s + 'thus far'
+        @gameword = @theword.split('')
+
+        if @gameword.include?(@userguess.last)
+            puts 'yeee'
+        else
+            puts 'prolly broken'
+        end
+    end
 end
 
 class Art
@@ -25,3 +38,4 @@ end
 gameword = Word.new
 
 gameword.dashes
+gameword.guess
