@@ -2,8 +2,8 @@ class Game
 
   def initialize
     @player_guess
-    @words = [] #[some list of words]
-    @counter
+    @words = ["big", "small", "cat", "turtle"] #[some list of words]
+    @counter = 0
     @word = @words.sample
     @letters_guessed = []
     get_player_input
@@ -57,11 +57,16 @@ class Game
 
   def check_if_guess_is_right
     if @word.include? @player_guess #correct letter guess!
-      update_spaces #update spaces with the letter
+      puts "correct letter guess"
+      # update_spaces #update spaces with the letter
     else #wrong letter guess
+      puts "wrong letter guess"
       @counter += 1
-      update_pond # frog position moves
+      puts "counter is #{@counter}"
+      puts "update pond gets called"
+      # update_pond # frog position moves
     end
+    get_player_input
   end
 
 
