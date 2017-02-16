@@ -10,7 +10,7 @@
 #
 # ~Array of unique letters from random word
 #
-# .each with string
+# .each with stringl
 #
 
 # (class) is the game WordGame
@@ -18,7 +18,10 @@ class WordGame
 
   def initialize
     @word = ["pizza", "jumpy", "hello", "world", "quack", "taxes"].sample
-    puts @word
+    # test initialize (below)
+    @guess = "p"
+    @word_with_blanks = word_with_blanks
+    print @word
   end
 
   def open_game
@@ -28,7 +31,13 @@ class WordGame
   end
 
   def word_with_blanks
-  # "hello".each_char {|c| print c, " " }
+    @word.each_char do |letter|
+      if letter == @guess # account for multiple guesses (?)
+        print " #{letter} "
+      else
+        print " _ "
+      end
+    end
   end
 
   def guess
