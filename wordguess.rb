@@ -43,12 +43,32 @@ class User
 end
 
 class GamePlay
+  attr_accessor :user
 
   def initialize(user)
-
+    @user = user
+    graphic
   end
 
   def graphic
+    puzzle_array = []
+    flower = ["(@)","(@)", "(@)"]
+
+    puzzle_length = user.word_to_guess.split('').length
+    puzzle_length.times do
+      puzzle_array << "_  "
+    end
+    puts "#{flower.join}"
+    puts
+    puts "#{puzzle_array.join}"
+  end
+
+  def game_play
+
+  end
+
+  def game_over
+
   end
 
 end
