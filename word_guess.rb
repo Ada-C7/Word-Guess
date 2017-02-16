@@ -31,21 +31,45 @@ class Game
     #   run check word method
   end
 
-  def verify_guess
+  def verify_guess_is_new
     if @player_guess.length == 1
       #has it been guessed
       if old guess
         get_player_input
       else
+        check_if_guess_is_right
+      end
+    else  #string is not one letter; gets another chance
+      get_player_input
+    end
+  end
 
-        if @word.include? @player_guess #correct letter guess!
-          update spaces with the letter
-        else #wrong letter guess
-          @counter += 1
-          update frog
-        end
-          display_frog #decide the correct location for when to run this method
-          @letters_guessed << @player_guess
+
+  #possible logic for checking word-length guesses
+      # @player_guess.length == 0
+      # get_player_input
+    # elsif @player_guess.length >= 2
+    #   if @player_guess == @word
+    #     #wins
+    #   else #OPTIONAL REQUIREMENT
+    #     counter += 1
+    #   end
+
+
+
+
+    end
+  end
+
+  def check_if_guess_is_right
+    if @word.include? @player_guess #correct letter guess!
+      update spaces with the letter
+    else #wrong letter guess
+      @counter += 1
+      update frog
+    end
+      display_frog #decide the correct location for when to run this method
+      @letters_guessed << @player_guess
   end
 
   def player_guess
