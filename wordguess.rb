@@ -1,3 +1,17 @@
-user_input = gets.chomp
+class User
+  attr_accessor :difficulty, :letter_guessed
 
-puts user_input
+  def initialize
+    @difficulty
+    @letter_guessed
+  end
+
+
+end
+
+class GamePlay
+
+  def initialize
+  end
+
+end
