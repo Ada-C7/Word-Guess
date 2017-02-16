@@ -47,12 +47,16 @@ class GamePlay
 
   def initialize(user)
     @user = user
-    graphic
+    game_play
   end
 
-  def graphic
+  def graphic(counter_times)
+    counter = counter_times
     puzzle_array = []
-    flower = ["(@)","(@)", "(@)"]
+    flower = []
+    counter.times do
+      flower << "(@)"
+    end
 
     puzzle_length = user.word_to_guess.split('').length
     puzzle_length.times do
@@ -64,6 +68,8 @@ class GamePlay
   end
 
   def game_play
+    counter = user.difficulty
+    graphic(counter)
 
   end
 
