@@ -9,6 +9,17 @@ class Game
     get_player_input
   end
 
+  def display_frog
+    # called when the counter changes
+    # and at the start
+    # array with 5 elements
+    # frog is at index that matches counter
+    # everything else equals a lilypad
+    # frog variable
+    # lilypad variable
+    # used to populate array
+    # iterate through
+  end
 
   def get_player_input
     print "What is your guess? "
@@ -20,11 +31,34 @@ class Game
     #   run check word method
   end
 
+  def verify_guess
+    if @player_guess.length == 1
+      #has it been guessed
+      if old guess
+        get_player_input
+      else
+
+        if @word.include? @player_guess #correct letter guess!
+          update spaces with the letter
+        else #wrong letter guess
+          @counter += 1
+          update frog
+        end
+          display_frog #decide the correct location for when to run this method
+          @letters_guessed << @player_guess
+  end
+
   def player_guess
     # takes player's guess
     # determines if it's valid
   end
 
+  def run_game
+    #track counter possibly with while loop
+    display_frog
+    show_blanks
+    get_player_input
+    verify_guess
 
 
 end
