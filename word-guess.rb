@@ -2,37 +2,44 @@
 class  WordGame
 attr_accessor :answer, :answer_array, :empty_array
 
-  def initialize
+ def initialize
     @answer = "cat"
     @guess
     @answer_array = @answer.split("")
     @empty_array = Array.new(@answer_array.length, " _ ")
   end
 
-  # gets guess from user
+ # gets guess from user
   def guess
     puts "Enter guess: "
     @guess = gets.chomp
   end
 
-  # compares the user's letter to answer array
+ # compares the user's letter to answer array
   def evaluate
     @answer_array.each do |letter|
       if @answer_array.include?(@guess)
         return "correct!"
       else
-        return "wrong"
+        return "incorrect"
       end
     end
   end
+
+   # method if answer is correct
+    def correct
+        @answer_array.each do |letter|
+        #find index of answer_array
+        if letter == @guess
+            index = @answer_array.index(@guess)
+            @empty_array[index] = @guess
+            puts @empty_array
+         end
+      end
+    end
 #
 #   # method if answer is wrong
 #   def incorrect
-#
-#   end
-#
-#   # method if answer is correct
-#   def correct
 #
 #   end
 #
@@ -45,3 +52,4 @@ print word.empty_array
 
 puts word.guess
 puts word.evaluate
+puts word.correct
