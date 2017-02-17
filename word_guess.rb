@@ -20,48 +20,77 @@ class WordGame
     @word = ["pizza", "jumpy", "hello", "world", "quack", "taxes"].sample
     # test initialize (below)
     @duck_count = 5
+    print @word #for test
     @open_game = open_game
-    print @word
-    @guess = guess
-    @word_with_blanks = word_with_blanks
-    # print @word
-
+    @all_guesses = []
+    @guess = guess #for test
+    @word_with_blanks = word_with_blanks #for test
+    until win? || lose?
+        guess
+        word_with_blanks
+        score #after_turn
+    end
+    #   @word_with_blanks = word_with_blanks
+    #   @guess = guess
+    #   @win_lose_continue
+    # end
   end
 
   def open_game
     puts "\nWelcome to the DUCKLING WORD GAME!"
     puts "\nYou have 5 guesses to guess the word or the ducklings will swim away."
-    after_turn
-  #   puts "
-  #      _          _          _          _          _
-  #    >(')____,  >(')____,  >(')____,  >(')____,  >(') ___,
-  #     (` =~~/    (` =~~/    (` =~~/    (` =~~/    (` =~~/
-  #  ~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~"
-  # rules/instruction
-  # first artwork
-  end
-
-  def word_with_blanks
-    @word.each_char do |letter|
-      if letter == @guess # account for multiple guesses (?)
-        print " #{letter} "
-      else
-        print " _ "
-      end
-    end
-    after_turn
   end
 
   def guess
     print "Which letter would you like to guess? "
     @guess = gets.chomp.downcase
   # -prompt and get one letter from user
+    @all_guesses << @guess
     return @guess
   end
 
-  def correct? # true if guess is in word
+  def word_with_blanks
+    @word_with_blanks = ""
+    @word.each_char do |letter|
+      if @all_guesses.include?(letter) # account for multiple guesses
+        @word_with_blanks << " #{letter} "
+      else
+        @word_with_blanks << " _ "
+      end
+      # if @word_with_blanks == @word
+      #   win_announce
+      # else
+      #   word_with_blanks
+    end
+    print @word_with_blanks
+    print @all_guesses
+    # score
+  end
+
+
+
+
+  def correct_guess? # true if guess is in word
     @word.include?(@guess)
   end
+
+
+
+  def lose?
+    duck_count == 0
+  end
+
+  def win?
+    @word_with_blanks == @word
+      # win_announce
+  end
+  #
+  #   if # win condition = guessed all the letters
+  #     print "YOU WIN! All your ducks swim back."
+  #   else
+  #     # continue
+  #   end
+  # end
 
   def validate
   # 	-include? [all_letters]
@@ -74,7 +103,17 @@ class WordGame
 
   private
 
-  def after_turn
+  def score
+    if win?
+      print "YOU WIN! All your ducks swim back."
+      duck_count = 5
+    elsif  correct_guess?
+
+    else
+      print "Oh, sad. One of the ducks swam away."
+      duck_count -= 1
+    end
+
     case @duck_count
     when 5
       puts "
@@ -113,7 +152,9 @@ class WordGame
       puts @duck_count
     end
   end
-
 end
 
 game = WordGame.new
+# until # win || lose
+# # repeat turns
+# end
