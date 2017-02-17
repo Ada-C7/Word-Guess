@@ -1,38 +1,19 @@
 require 'colorize'
 require 'faker'
 class Game
-  attr_accessor :display, :guess_letter, :guesses, :misses, :miss_art, :win
-  attr_reader :answer
+  attr_accessor :display, :guess_letter, :guesses, :misses, :miss_art, :win, :answer, :word
+
 
   def initialize
     @win = false
-    @answer = Faker::Color.color_name.split("")
+    @answer =
     @guesses = []
     @misses = []
     @display = []
     @guess_letter = ""
     @miss_art = ""
+    @word = ""
     generate_prompt
-
-
-    # @show_index = show_index
-  end
-  def compare
-    while @answer.count(@guess_letter) > 0
-      replace_index = @answer.find_index(guess_letter)
-      @display[replace_index] = guess_letter
-      @answer[replace_index]= "_"
-    end
-    print @display
-  end
-
-  def display_prompt(replace_index, guess_letter)
-
-    # print @display
-  end
-
-  def print_prompt
-    print @display
   end
 
   def generate_prompt
@@ -43,6 +24,36 @@ class Game
     current_display = @display.join(' ')
     print current_display
   end
+
+  def make_answer
+    @word = [Faker::Color.color_name.split(""),Faker::Space.planet.split(""),Faker::Team.creature.split("")].sample
+    @answer = @word
+  end
+
+
+
+
+  def take_guess
+    print "Guess a letter:"
+    @guess_letter = gets.chomp
+    if @answer.count(@guess_letter) == 0
+      @misses << @guess_letter
+    end
+    return @guess_letter
+  end
+
+  def compare
+    while @answer.count(@guess_letter) > 0
+      replace_index = @answer.find_index(guess_letter)
+      @display[replace_index] = guess_letter
+      @answer[replace_index]= " _"
+    end
+     print @display.join(" ")
+  end
+
+
+
+
 
   def check_misses
     misses = @misses.length
@@ -77,27 +88,18 @@ class Game
     end
   end
 
-  #we had a dream....we wanted to show players their missed guesses
-  # def display_key
-  # end
 
-  def take_guess
-    print "Guess a letter:"
-    @guess_letter = gets.chomp
-    if @answer.count(@guess_letter) == 0
-      @misses << @guess_letter
-    end
-    return @guess_letter
-  end
 
   def play
+    make_answer
+    generate_prompt
     while !@win
       take_guess
       compare
       check_misses
       display_art
 
-      if @display.count("_") == 0 && @misses.count != 5
+      if @display.count("_") == 0 && @misses.count != 6
         puts "you win!"
         @win = true
       elsif  @misses.count == 6
@@ -108,15 +110,16 @@ class Game
             print line
           end
           puts "you lose!"
+          puts "The answer was: #{@word}"
           @win = true
         end
       end
     end
   end
-  end
+end
 
 
-  new_game = Game.new
-  new_game.play
+new_game = Game.new
+new_game.play
 
-  #new_game.print_prompt
+#new_game.print_prompt
