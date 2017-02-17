@@ -1,19 +1,25 @@
+# A program to play a game of wordguess with one User
+# Try and guess the word before your guesses run out
+
 require 'terminal-table'
 require 'colorize'
 
+#Class for the user information
 class User
-  attr_accessor :difficulty, :letter_guessed, :word_to_guess
+  attr_accessor :difficulty, :word_to_guess
   attr_reader :theme
 
+# Initialize with difficulty level, the word to guess and theme
   def initialize
     @difficulty = 0
-    @letter_guessed
     @word_to_guess
     @theme = ""
     puts "Welcome to Word Guess!".blink
     prompt
   end
 
+#Prompt for user information. Users pick both difficulty and a
+#word theme
   def prompt
     options = ["Default", "Food", "Hacker", "Game of Thrones",
      "Lord of the Rings"]
@@ -48,6 +54,7 @@ class User
     word
   end
 
+#Method to pick a word that will be used for the game
   def word
     options = []
     case @theme
@@ -72,12 +79,13 @@ class User
 
 end
 
+#Class for actual gameplay
 class GamePlay
   attr_accessor :user, :counter, :puzzle_array, :word_array
 
+  #The user object is passed into the gameplay class
   def initialize(user)
     @user = user
-
     @counter = user.difficulty
     @puzzle_array = []
     puzzle_length = user.word_to_guess.split('').length
@@ -88,19 +96,19 @@ class GamePlay
     game_play
   end
 
+#Method that outputs the graphical part of the game
   def graphic
     flower = []
     @counter.times do
       flower << "(@) ".colorize(:red)
     end
-
-
     puts "#{flower.join}"
     puts
     puts "#{@puzzle_array.join}"
     puts
   end
 
+# Method that plays game. It runs into the game is over
   def game_play
     until game_over
       graphic
@@ -108,6 +116,7 @@ class GamePlay
     end
   end
 
+#Method that interprets the user inputted guess
   def guess
     puts "Enter a letter"
     puts
@@ -123,10 +132,10 @@ class GamePlay
       puts "Try again!"
     end
     @counter -= 1
-
   end
 
-
+#Method to determine whether or not the game is over, and
+#whether or not the game has been won
   def game_over
     if @counter == 0 && !(@puzzle_array.join == user.word_to_guess)
       puts "You didn't get it! The word was #{user.word_to_guess}."
@@ -145,5 +154,6 @@ class GamePlay
 
 end
 
+#Create user and gameplay objects
 user = User.new
 game = GamePlay.new(user)
