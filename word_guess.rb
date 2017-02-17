@@ -1,19 +1,21 @@
 # #Classes
 # class Dictionary
 #
+#
 #   initialize(dictionary_hash)
-#     @type: dictionary_hash[:type]
+#     @type = dictionary_hash[:type]
 #   end
 #
 # end
 
 class Word
-  attr_reader :name
+ attr_accessor :name
 
-  def initialize(word)
-    @word = word
+ def initialize (word)
+   @name = word
+ end
 
-  end
+end
 
 #   def choose_word(word, number_of_letters)
 #
@@ -21,10 +23,14 @@ class Word
 #
 # end
 #
-# class letter
-#
-# end
-#
+class Letter
+
+  def initialize(letter)
+
+  end
+
+end
+
 # class Marquee
 #
 # end
@@ -37,16 +43,25 @@ class Word
 # def trigger
 #
 # end
+
 print "What type of word would you like to guess?"
 type = gets.chomp.to_sym
 
 dictionary_hash = {
-  sports: ["ball", "basket"],
-  foods: ["apple", "soup"]
+ sports: ["ball", "basket"],
+ foods: ["apple", "soup"]
 }
 
-dictionary_hash[type].sample
+sample = Word.new(dictionary_hash[type].sample)
 
+puts sample.name
+
+puts "What letter would you like to guess?"
+letter = gets.chomp.downcase
+
+guess = Letter.new(letter)
+
+puts guess
 #
 # print "What letter would you like to guess?\r"
 # guess = gets.chomp
