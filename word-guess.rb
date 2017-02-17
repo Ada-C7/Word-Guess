@@ -1,22 +1,8 @@
-# the word will be given by gem
-# underlines for the random word will be poped up according to the random word
-# array for a word
-# the user will start entering his guesses one at a time
-# the user can guess the whole word at once - game over
-# case 1 when user guess is right:
-# place the right letter at the position/positions
-# case 2 when user guess is not right:
-# remove 1 flower at a time
-# when the game is over, give an user option to continue or quit
 
 require 'colorize'
-#require 'colorized_string'
 require 'Faker'
 class Game
   attr_reader  :random_word
-  def initialize
-    @counter = 0 # counts wrong guesses, if 5 - user lose
-  end
 
   def empty_array?(array)
     array.each do |value|
@@ -29,20 +15,15 @@ class Game
     array_of_underlines.each do |underline|
       print underline
     end
+    puts
   end
 
-  def input_correct?(user_guess, random_word)
+  def input_incorrect?(user_guess, random_word)
     special = "@#%!*1234567890-=+()"
-    user_guess.length.times do |letter|
-      if !special.include?(user_guess[letter])
-        return true
-      end
-    end
-    if !(user_guess.length != 1 || user_guess.length != random_word.length)
+    if special.include?(user_guess)
       return true
     end
   end
-
 
   def find_place (random_word, user_guess, array_of_underlines)
     random_word.each_with_index do |char, index|
@@ -57,10 +38,10 @@ class Game
     stop_game = false
     until stop_game
       puts "Welcome to word guess game! "
-      random_word = "whiteblue".split''#Faker::Color.color_name.split''
-      print random_word
+      random_word = Faker::Color.color_name.split''
       array_of_underlines = Array.new(random_word.length, "_ ")
       display_underlines(array_of_underlines)
+      counter = 0 # counts wrong guesses, if 5 - user lose
       puts "\n Enter a letter or a full word:"
       flower = '
     (@)(@)(@)(@)(@)
@@ -70,16 +51,15 @@ class Game
          |   |
          |___|'.colorize(:red)
       stop_round = false # stop round of a game
-
+      all_guesses = []
       until stop_round
         puts flower
         user_guess = gets.chomp
-        if !input_correct?(user_guess, random_word)
+        if input_incorrect?(user_guess, random_word)
           puts "Letters only! Try Again!"
           next
         end
 
-        all_guesses = []
         if all_guesses.include?(user_guess)
           puts "Don't enter the same letter twice! Try again"
           next
@@ -89,14 +69,12 @@ class Game
         if random_word.include? user_guess
           find_place(random_word, user_guess, array_of_underlines)
           display_underlines(array_of_underlines)
-          # puts
-          # print random_word
-          # puts
+
         elsif !random_word.include? user_guess
-          @counter += 1
+          counter += 1
           flower = flower.sub(/\(@\)/, '') # remove (@) from flower
         end
-        if @counter == 5
+        if counter == 5
           puts "You lost a game"
           stop_round = true
         end
