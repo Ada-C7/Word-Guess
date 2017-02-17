@@ -1,39 +1,50 @@
+
+
 class WordGuess
 
-attr_reader :letter_guess
+attr_accessor :user_guess, :words, :flower
 
-  def initialize (words_array = [ "hello", "elephant", "gum"], lines = [])
-    @words = words_array[rand(0..2)]
-    puts "#{@words}"
+WORDS_ARRAY = [ "hello", "elephant", "gum"]
+
+  def initialize
+
+    @word = WORDS_ARRAY[rand(0..2)]
     @flower = []
-    @words.length.times do
-      @flower << "@"
+    @word.length.times do
+      @flower << "@ "
     end
-    print "#{ @flower }"
+
+    # @flower.each do |bud|
+    #   print bud
+    # end
+
     @correct_word = []
     @incorrect_letters = []
-    @words.length.times do
-      @correct_word << "_"
+    @word.length.times do
+      @correct_word << "_ "
     end
-    puts "#{@lines}"
-    @user_guess = "e"
+
+    @correct_word.each do |letter|
+      print letter
+    end
+    @user_guess
 
   end
 
   def checking_letters
-    chosen_word_array = @words.chars.to_a
+    chosen_word_array = @word.chars.to_a
     #counter = 0
-    if @words.include?(@user_guess)
-    chosen_word_array.each_with_index do |letter, index|
-      if letter == @user_guess
-        @correct_word[index] = letter
-        # puts @correct_word
+    if @word.include?(@user_guess)
+      chosen_word_array.each_with_index do |letter, index|
+        if letter == @user_guess
+          @correct_word[index] = letter
+          # puts @correct_word
 
-      # else
-      #   @incorrect_letters << @user_guess
-      #
+          # else
+          #   @incorrect_letters << @user_guess
+          #
         end
-      # counter += 1
+        # counter += 1
       end
       print @correct_word
       puts
@@ -42,8 +53,8 @@ attr_reader :letter_guess
       @flower.pop
       print @flower
     end
-        puts "these are incorrect"
-        puts @incorrect_letters
+    puts "these are incorrect"
+    puts @incorrect_letters
   end
 
   def remove_flower
@@ -64,5 +75,19 @@ attr_reader :letter_guess
 
 end
 
-wordgame = WordGuess.new
-wordgame.checking_letters
+puts "welcome to Word Guess!"
+puts "Here is your secret word you have to guess!"
+newgame = WordGuess.new
+
+puts "Please enter a letter: "
+newgame.user_guess = gets.chomp
+
+
+newgame.checking_letters
+
+# puts newgame.words
+
+
+newgame.flower.each do |bud|
+  print bud
+end
