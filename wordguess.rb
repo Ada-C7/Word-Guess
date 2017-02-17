@@ -1,4 +1,5 @@
 require 'terminal-table'
+require 'colorize'
 
 class User
   attr_accessor :difficulty, :letter_guessed, :word_to_guess
@@ -7,15 +8,15 @@ class User
     @difficulty
     @letter_guessed
     @word_to_guess
-    puts "Welcome to Word Guess!"
+    puts "Welcome to Word Guess!".blink
     prompt
   end
 
   def prompt
     rows = []
-    rows << ["Easy", 10]
-    rows << ["Medium", 7]
-    rows << ["Hard", 5]
+    rows << ["Easy".colorize(:green), 10]
+    rows << ["Medium".colorize(:yellow), 7]
+    rows << ["Hard".colorize(:red), 5]
     table = Terminal::Table.new :title => "Pick your Difficulty",
     :headings => ["Difficulty", "Num of Guesses"], :rows => rows
     puts table
@@ -43,18 +44,18 @@ class User
 end
 
 class GamePlay
-  attr_accessor :user
+  attr_accessor :user, :counter
 
   def initialize(user)
     @user = user
+    @counter = user.difficulty
     game_play
   end
 
-  def graphic(counter_times)
-    counter = counter_times
+  def graphic
     puzzle_array = []
     flower = []
-    counter.times do
+    @counter.times do
       flower << "(@)"
     end
 
@@ -68,13 +69,33 @@ class GamePlay
   end
 
   def game_play
-    counter = user.difficulty
-    graphic(counter)
+    until game_over
+      graphic
+      guess
+    end
+  end
+
+  def guess
+    puts "Enter a letter"
+    letter = gets.chomp
+    word = user.word_to_guess.split('')
+    if word.include?(letter)
+      puts "Yes"
+    else
+      puts "no"
+    end
+    @counter -= 1
+    puts @counter
 
   end
 
-  def game_over
 
+  def game_over
+    if counter == 0
+      true
+    else
+      false
+    end
   end
 
 end
