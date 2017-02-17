@@ -39,7 +39,7 @@ class User
     end
     rows_two = []
     rows_two << ["Default"]
-    rows_two << ["Food".colorize(:pink)]
+    rows_two << ["Food".colorize(:light_red)]
     rows_two << ["Hacker".colorize(:green)]
     rows_two << ["Game of Thrones".colorize(:red)]
     rows_two << ["Lord of the Rings".colorize(:yellow)]
@@ -106,7 +106,6 @@ class GamePlay
     until game_over
       graphic
       guess
-      graphic
     end
   end
 
@@ -135,6 +134,7 @@ class GamePlay
       return true
     elsif @counter == 0 && @puzzle_array.join == user.word_to_guess
       puts "Congrats! You won!"
+      graphic
       return true
     elsif @puzzle_array.join == user.word_to_guess
       puts "Congrats! You won!"
