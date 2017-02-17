@@ -8,14 +8,16 @@ def initialize
    @answer_array = @answer.split("")
    @empty_array = Array.new(@answer_array.length, " _ ")
    @wrong_guesses = []
+   @flower = ["(@)", "(@)", "(@)", "(@)", "(@)"]
  end
 
 # gets guess from user
  def guess
    while @wrong_guesses.length < 5 && @answer_array != @empty_array
-     puts "Enter guess: "
+     print "Enter guess: "
      @guess = gets.chomp
      evaluate
+     display
      guess
    end
  end
@@ -25,7 +27,6 @@ def initialize
    if @answer_array.include?(@guess)
      correct
      puts "correct!"
-     puts @empty_array
    else
      incorrect
      puts "incorrect"
@@ -45,6 +46,7 @@ def initialize
  # method if answer is wrong
  def incorrect
    @wrong_guesses << @guess
+   @flower.pop
  end
 
 end
@@ -52,14 +54,20 @@ end
 # take away a petal
 # display wrong guesses
 def display
-
+  print @flower.join("")
+  puts "\n\,\\,\\,|,/,/,"
+  puts " _\\|/_"
+  puts "|_____|"
+  puts " |   |"
+  puts " |___|"
+  puts @empty_array.join(" ")
+  puts "Wrong Guesses: #{@wrong_guesses.join(" ")}"
 end
 
-word = WordGame.new
 # puts word.answer
-puts word.guess
-print word.answer_array
-print word.empty_array
+puts "WELCOME TO OUR WORD GAME"
+word = WordGame.new
+word.guess
 # puts word.correct
 # puts word.empty_array
 #puts word.wrong_guesses
