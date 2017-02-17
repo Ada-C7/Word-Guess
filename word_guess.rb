@@ -1,26 +1,68 @@
 class Game
 
   def initialize
-    @pond = []
+    @pond
     @player_guess
     @words = ["big", "small", "cat", "turtle"] #[some list of words]
     @counter = 0
     @word = @words.sample
     @letters_guessed = []
     @spaces = []
+    @frog
+    @lilypad
     puts "word is #{@word}."
+    create_pond
     create_spaces
     run_turn
   end
 
   #TO DO
-
-  #handle multiple letters in the same word (e.g. t in turtle)
-  #add letter to @spaces
+  #display pond
   #update @pond
-  #update @spaces
-  #check @spaces for winning word
-  #how to track position of word (possibly with counter) --maybe a position var
+
+
+
+
+def create_pond
+  @pond = []
+  @frog = "
+     @..@   \n
+    (----)  \n
+   ( >__< ) \n
+   ^^ ~~ ^^ \n
+  ----------
+  "
+  @lilypad = "----------"
+  @pond = []
+
+  @pond << @frog
+  4.times do
+    @pond << @lilypad
+  end
+
+end
+
+def display_pond
+
+  # called when the counter changes
+  # and at the start
+  # array with 5 elements
+  # frog is at index that matches counter
+  # everything else equals a lilypad
+  # frog variable
+  # lilypad variable
+  # used to populate array
+  # iterate through
+  puts "displaying pond"
+end
+
+
+
+
+def update_pond
+  puts "updating pond"
+end
+
 
   def create_spaces
     @spaces = []
@@ -64,26 +106,7 @@ class Game
     run_turn
   end
 
-  def display_pond
 
-    # called when the counter changes
-    # and at the start
-    # array with 5 elements
-    # frog is at index that matches counter
-    # everything else equals a lilypad
-    # frog variable
-    # lilypad variable
-    # used to populate array
-    # iterate through
-    puts "displaying pond"
-  end
-
-
-
-
-  def update_pond
-    puts "updating pond"
-  end
 
 
 
@@ -92,6 +115,7 @@ class Game
     user_response = gets.chomp
     case user_response
     when "yes"
+      create_pond
       create_spaces
       run_turn
     when "no"
