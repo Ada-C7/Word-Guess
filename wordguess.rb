@@ -5,7 +5,7 @@ class User
   attr_accessor :difficulty, :letter_guessed, :word_to_guess
 
   def initialize
-    @difficulty
+    @difficulty = 0
     @letter_guessed
     @word_to_guess
     puts "Welcome to Word Guess!".blink
@@ -25,7 +25,7 @@ class User
     when "easy"
       @difficulty = 10
     when "medium"
-      @diffculty = 7
+      @difficulty = 7
     when "hard"
       @difficulty = 5
     else
@@ -48,6 +48,7 @@ class GamePlay
 
   def initialize(user)
     @user = user
+
     @counter = user.difficulty
     @puzzle_array = []
     puzzle_length = user.word_to_guess.split('').length
@@ -74,6 +75,7 @@ class GamePlay
     until game_over
       graphic
       guess
+      graphic
     end
   end
 
@@ -96,8 +98,11 @@ class GamePlay
 
 
   def game_over
-    if @counter == 0
-      puts "You didn't get it! The word was #{user.word_to_guess}"
+    if @counter == 0 && !(@puzzle_array.join == user.word_to_guess)
+      puts "You didn't get it! The word was #{user.word_to_guess}."
+      return true
+    elsif @counter == 0 && @puzzle_array.join == user.word_to_guess
+      puts "Congrats! You won!"
       return true
     elsif @puzzle_array.join == user.word_to_guess
       puts "Congrats! You won!"
