@@ -16,8 +16,8 @@ class WordGuess
       end
     end
 
-
     @used_letters = []
+    @wrong_letter_array = []
 
     puts "Ready to have some word guessing fun? Try to guess the word before all the birds fly away. Let the games begin!"
 
@@ -62,10 +62,30 @@ end
         else
           print "_ "
         end
+        end
+
+        if !(@correct_word.include?(guess))
+            @wrong_letter_array << guess
       end
       puts
+
+      puts "The wrong letters guessed are:"
+      puts  @wrong_letter_array
+
+      if game_end?
+        puts "You used up all the chances."
+        exit
+        #continue_game
+      end
+
+
     end
 
+    private
+
+         def game_end?
+           @wrong_letter_array.length == 5
+         end
 
   end
 
