@@ -8,13 +8,30 @@ class Game
     @letters_guessed = []
     @spaces = []
     puts "word is #{@word}."
+    create_spaces
     run_turn
   end
 
   #TO DO
   #handle multiple letters in the same word (e.g. t in turtle)
-  #for testing, show counter all the time
   #display pond and spaces and update pond and spaces
+
+  def create_spaces
+    @spaces = []
+    @word.length.times do
+      @spaces << "__"
+    end
+    puts "created initial spaces"
+  end
+
+  def display_spaces
+    @spaces.each do |space|
+      print space + "\t"
+
+    end
+    puts
+    puts "displaying spaces"
+  end
 
 
   def run_turn
@@ -40,9 +57,7 @@ class Game
     puts "displaying pond"
   end
 
-  def display_spaces
-    puts "displaying spaces"
-  end
+
 
 
   def update_pond
@@ -58,6 +73,7 @@ class Game
     user_response = gets.chomp
     case user_response
     when "yes"
+      create_spaces
       run_turn
     when "no"
       exit
@@ -93,6 +109,7 @@ class Game
   def check_if_guess_is_right
     if @word.include? @player_guess #correct letter guess!
       puts "correct letter guess"
+      puts "counter is #{@counter}"
       # update_spaces #update spaces with the letter
     else #wrong letter guess
       puts "wrong letter guess"
