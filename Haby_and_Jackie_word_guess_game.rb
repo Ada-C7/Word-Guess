@@ -8,14 +8,22 @@ class WordGuess
 
   def initialize
 
-    @word = WORDS_ARRAY[rand(0..2)]
+    @word = WORDS_ARRAY[rand(0..2)].upcase
     @flower = ["@ ","@ ","@ ","@ ","@ "]
-
 
     @flower.each do |bud|
       print bud
     end
-    @chosen_word_array = @word.chars.to_a
+    puts
+    puts ",\\,\\|/,/,"
+    puts "  _\\|/_"
+    puts " |_____|"
+    puts "  |   |"
+    puts "  |___| "
+    puts
+
+    @chosen_word_array = @word.upcase.chars.to_a
+
     @correct_word = []
     @incorrect_letters = []
     @word.length.times do
@@ -26,23 +34,26 @@ class WordGuess
       print letter
     end
     @user_guess
+    2.times do
+      puts
+    end
 
   end
 
+  def verify_input
+    while @user_guess.length > 1
+      puts "Please enter a single letter. Thanks"
+      @user_guess = gets.chomp.upcase
+    end
+  end
+
+
   def check_letters
-
-
 
     if @word.include?(@user_guess)
       @chosen_word_array.each_with_index do |letter, index|
         if letter == @user_guess
           @correct_word[index] = letter
-          # puts @correct_word
-
-          # else
-          #   @incorrect_letters << @user_guess
-          #
-
         end
         # counter += 1
       end
@@ -52,11 +63,31 @@ class WordGuess
       @flower.pop
 
     end
-    print @flower
-    print @correct_word
     puts
-    puts "these are incorrect"
-    print @incorrect_letters
+    puts
+    # displays leftover flower buds each round
+    @flower.each do |bud|
+      print bud + " "
+    end
+    puts
+    puts ",\\,\\|/,/,"
+    puts "  _\\|/_"
+    puts " |_____|"
+    puts "  |   |"
+    puts "  |___| "
+    puts
+    # displays correct letters or unguessed letters each round
+    @correct_word.each do |letter|
+      print letter + " "
+    end
+    puts
+
+    # displays incorrect inputs each guess
+    puts "Incorrect Guesses: "
+    @incorrect_letters.each do |letter|
+      print letter + " "
+    end
+    puts
     puts
   end
   # end
@@ -66,32 +97,19 @@ class WordGuess
       exit
     end
   end
-  def remove_flower
-  end
-
-  def add_letter
-  end
-
-  def display_flowers
-
-    # puts ",\\,\\,|,/,/,"
-    # puts "  _\\|/_"
-    # puts "  |_____|"
-    # puts "   |   |"
-    # puts "   |___| "
-  end
 
 
 end
 
 puts "welcome to Word Guess!"
 puts "Here is your secret word you have to guess!"
+puts
 newgame = WordGuess.new
 
 while newgame.flower.length > 0
   puts "Please enter a letter: "
-  newgame.user_guess = gets.chomp
-
+  newgame.user_guess = gets.chomp.upcase
+  newgame.verify_input
   newgame.check_letters
   newgame.check_word
 end
