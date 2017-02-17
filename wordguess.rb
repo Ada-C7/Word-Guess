@@ -24,8 +24,9 @@ class WordGuess
   end
 
   def gen_word
-  #  array_of_words = ["ha rry", "wan d", "hog warts", "love good", "cl oak", "mug gle"]
-   @word = Faker::HarryPotter.character.downcase #array_of_words[rand(0..1)]
+  #  array_of_words = ["harry", "wand", "hogwarts", "lovegood", "cloak", "muggle"]
+  #  @word = array_of_words[rand(0..5)]
+   @word = Faker::HarryPotter.character.downcase
   end
 
   def ascii
@@ -57,16 +58,16 @@ o    :    *   * :\ -  o    +
     @word_as_array.each do |letter|
       case
         when letter == " "
-          @word_as_dashes.push("   ")
-          @guess = " "
+          @word_as_dashes.push(" ")
+          @guess = "   "
           self.update_dash
         when letter == "."
           @word_as_dashes.push(". ")
-          @guess = "."
+          @guess = ". "
           self.update_dash
         when  letter == ","
           @word_as_dashes.push(", ")
-          @guess = ","
+          @guess = ", "
           self.update_dash
         else
           @word_as_dashes.push("_ ")
@@ -81,7 +82,10 @@ o    :    *   * :\ -  o    +
   end
 
   def match
-    if @word.include? "#{@guess}"
+    if @word == @guess
+      puts win
+      exit
+  elsif @word.include? "#{@guess}"
       self.update_dash
     else
       @counter += 1
@@ -94,14 +98,14 @@ o    :    *   * :\ -  o    +
     until @word_as_dashes.join == @word || @counter == 5
       guess
       puts update_ascii
-      puts @word_as_dashes.join
+      puts @word_as_dashes.join.capitalize
       puts "wrong guesses: #{@guessed_array}"
       next
     end
     if @word_as_dashes.join == @word
-      puts "YOU WON! YER A WIZARD, HARRY!"
+      puts win
     else
-      puts "Better luck next time, Malfoy. You forgot about #{@word}!"
+      puts "Better luck next time, Malfoy. You forgot about #{@word.capitalize}!"
     end
 
   end
@@ -138,6 +142,27 @@ o    :    *   * :\ -  o    +
     # puts @guessed_array
   end
 
+def win
+  return %q{
+           _             _.,----,
+__  _.-._ / '-.         -  ,._  \)
+|  `-)_   '-.   \       / < _ )/" )
+/__    '-.   \   '-, ___(c-(6)=(6)
+, `'.    `._ '.  _,'   >\    "  )
+:;;,,'-._   '---' (  ( "/`. -='/
+;:;;:;;,  '..__    ,`-.`)'- '--'
+;';:;;;;;'-._ /'._|   Y/   _/' \
+  '''"._ F    |  _/ _.'._   `\
+         L    \   \/     '._  \
+  .-,-,_ |     `.  `'---,  \_ _|
+  //    'L    /  \,   ("--',=`)7
+ | `._       : _,  \  /'`-._L,_'-._
+ '--' '-.\__/ _L   .`'         './/
+             [ (  /
+              ) `(
+              \__)
+ "YOU WON! YER A WIZARD, HARRY!"}
+end
 end
 
 
