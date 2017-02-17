@@ -26,6 +26,7 @@ class WordGuess
     while @correct_word.include?(" ")
       @correct_word = (Faker::Color.unique.color_name)
     end
+  end
 
     #puts the letters of the given word into an array without duplicates
     def  build_correct_letter_array
@@ -34,6 +35,7 @@ class WordGuess
           @correct_letter_array << letter
         end
       end
+    end
 
 
       def begin_game
@@ -72,7 +74,9 @@ class WordGuess
         end
 
         if !(@correct_word.include?(guess))
-          @wrong_letter_array << guess
+          if !(@wrong_letter_array.include?(guess))
+             @wrong_letter_array << guess
+          end
         end
         puts
         puts "The wrong letters guessed are:"
