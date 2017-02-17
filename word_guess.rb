@@ -10,42 +10,47 @@ class WordGame
 
 
   # Method initialize
-  def initialize(unique_word)
-
-    @word = unique_word
+  def initialize
+    #gsub is a string method that can take regex as an argument, in this case it will strip all spaces
+    @word = Faker::Color.unique.color_name.gsub(/\s+/,"").chars
     @max_guesses = 15
     @wrong_guesses = []
-    @progress = Array.new(unique_word.length, "_")
+    @progress = Array.new(@word.length, "_")
   end
 end
 def run_game
-  # word_game = start(words)
-  # word_game = start(words)
-  words = create_word_bank
-  word_game = start(words)
-  #prompt_user(word_game.progress)
 
+  word_game = WordGame.new
 
   until word_game.max_guesses == 0
+    system("clear")
+    puts "Wrong letter guesses: #{word_game.wrong_guesses.join(" ")}"
+    puts "#{word_game.progress.join(" ")}"
     roses = pruning_roses(word_game.max_guesses)
     puts print_ascii_art(roses)
-    guess = prompt_user(word_game.progress)
+    winning?(word_game)
+    guess = prompt_user
     input_evaluation(guess, word_game)
-    print word_game.wrong_guesses
-    puts
+
+    if word_game.max_guesses == 0
+      system("clear")
+      roses = pruning_roses(word_game.max_guesses)
+      puts print_ascii_art(roses)
+    end
   end
-  print word_game.progress
-  print word_game.word
+
+  puts "Sorry you lost :("
+  puts "The word you were looking for was #{word_game.word.join}"
 end
 
 
 def print_ascii_art(roses)
   #roses = "(@)(@)(@)(@)(@)\n"
   pot = "\n,\\,\\,|,/,/,
-  _\\|/_
+   _\\|/_
   |_____|
-  |   |
-  |___|
+   |   |
+   |___|
   "
   full_pot = roses + pot
 end
@@ -71,30 +76,15 @@ def input_evaluation(guess, correct_word)
   end
 end
 
-# BUGZ: color might be greater than one work, how to handle spaces?
-def create_word_bank
-  words = []
-  10.times do
-    words << Faker::Color.unique.color_name
+def winning?(game)
+  if game.word == game.progress
+    puts "You won! Yaaaaay!!"
+    exit
   end
-  return words
 end
-
-def start(array)
-  #gsub is a string method that can take regex as an argument, in this case it will strip all spaces
-  #print array
-  word = array[0].gsub(/\s+/,"").chars
-  WordGame.new(word)
-end
-
-# puts game_word.word
-# # puts words
-# print game_word.word_work
 
 # Create user prompt
-def prompt_user(game_board)
-  print game_board
-
+def prompt_user
   puts "\nHello user, please guess a letter > "
   gets.chomp
 
