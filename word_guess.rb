@@ -1,11 +1,10 @@
 class Game
 
-
   def initialize
     @win = false
     @answer = []
     @guesses = []
-    @display
+    @display = []
     @show_index = show_index
   end
 
@@ -17,7 +16,14 @@ class Game
     end
   end
 
-  def display_prompt
+  def display_prompt(replace_index, guess_letter)
+
+  end
+
+  def generate_prompt
+    @answer.length times do
+      @display << "_"
+    end  
   end
 
   def display_art
