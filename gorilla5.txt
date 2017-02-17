@@ -6,8 +6,10 @@
       {{  }'-=-'{ } }
       { { }._:_.{  }}
       {{  } -:- { } }
-jgs   {_{ }`===`{  _}
+      {_{ }`===`{  _}
      ((((\)     (/))))
 
   Word Kong has crushed you!
           Goodbye!
+
+art by: jgs 

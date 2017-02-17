@@ -1,10 +1,13 @@
            ."`".
-       .-./ _=_ \.-.
-      {  (,(oYo),) }}
 
 
 
-jgs
 
-    You have 4 misses left.
-          Good luck!
+
+
+   Your guess was incorrect.
+    You've roused Word Kong.
+He's been known to crush players.
+        Watch out!
+
+art by: jgs
