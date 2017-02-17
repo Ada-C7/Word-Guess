@@ -31,20 +31,26 @@ def big_loop
         @underscore_array[index] = letter
       end
     end
-      puts "#{@underscore_array.join(" ")}"
-      big_loop
+    ascii_art
+    puts "\n#{@underscore_array.join(" ")}"
+    big_loop
     # this is where the correct index is collected
     # the underscore_array and underscore_string
     # are updated to show correct guess
     # unless loop to handle when last letter guessed
   elsif @user_input == @word_string then
-    puts "Working2"
   #elsif @word_array.length == @underscore_array.length
     #compare complete arrays and give
     #you win prompt
   else
     puts "You're SO wrong. You killed a cat."
     @lives -= 1
+    ascii_art
+    if @lives == 0
+      puts "\n Game over!"
+      exit
+    end
+    puts "\n#{@underscore_array.join(" ")}"
     big_loop
   end
 end
