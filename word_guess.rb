@@ -9,7 +9,7 @@ class Game
     get_player_input
   end
 
-  def display_frog
+  def display_pond
     # called when the counter changes
     # and at the start
     # array with 5 elements
@@ -19,8 +19,21 @@ class Game
     # lilypad variable
     # used to populate array
     # iterate through
+    puts "displaying pond"
   end
 
+  def display_spaces
+    puts "displaying spaces"
+  end
+
+
+  def update_pond
+    puts "updating pond"
+  end
+
+  def update_spaces
+    puts "updating spaces"
+  end
 
   def run_game
     # check for done
@@ -33,6 +46,7 @@ class Game
         # get_player_input
         # verify_guess_is_new
   end
+
 
   def get_player_input
     print "What is your guess? "
