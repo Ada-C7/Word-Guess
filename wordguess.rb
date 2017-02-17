@@ -1,5 +1,5 @@
 class WordGuess
-  attr_reader = :word, :guessed_array
+  attr_reader = :word, :guessed_array, :counter
   attr_accessor = :guess
 
   def initialize
@@ -9,6 +9,7 @@ class WordGuess
     @ascii = ascii
     @guess = " "
     @guessed_array = []
+    @counter = 0
     puts intro
   end
 
@@ -18,7 +19,7 @@ class WordGuess
     puts ascii
     puts @word_as_dashes.join # make this part print better and then commit
     puts "Guess a letter! (parseltongue NOT accepted)"
-    guess
+    game
   end
 
   def gen_word
@@ -58,7 +59,7 @@ o    :    *   * :\ -  o    +
   end
 
   def guess
-    puts "Enter your letter"
+    puts "Enter your letter:"
     @guess = gets.chomp.downcase
     self.match
   end
@@ -67,18 +68,31 @@ o    :    *   * :\ -  o    +
     if @word.include? "#{@guess}"
       self.update_dash
     else
+      @counter += 1
       self.update_guessed_letters
       self.update_ascii
     end
   end
 
   def game
-    while 
+    until @word_as_dashes.join == @word || @counter == 5
+      guess
+      puts "ascii"
+      puts @word_as_dashes.join
+      puts "wrong guesses: #{@guessed_array}"
+      next
+    end
+    if @word_as_dashes.join == @word
+      puts "YOU WON! YER A WIZARD, HARRY!"
+    else
+      puts "Better luck next time, Malfoy."
+    end
+
   end
 
   def update_ascii
     # @ascii = @ascii.delete("*")
-    puts "ascii"
+    # puts "ascii"
   end
 
   def update_dash
@@ -90,9 +104,9 @@ o    :    *   * :\ -  o    +
   end
 
   def update_guessed_letters
-    puts "guessed letters"
+    # puts "guessed letters"
     @guessed_array << @guess
-    puts @guessed_array
+    # puts @guessed_array
   end
 
 
