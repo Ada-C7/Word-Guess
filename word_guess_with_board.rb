@@ -1,7 +1,13 @@
 class Board
 
-  def initialize
-
+  def initialize(word)
+    @pond
+    @frog
+    @word = word
+    @lilypad
+    @spaces
+    create_board
+    # @word ????
   end
 
   def create_board
@@ -19,7 +25,7 @@ class Board
 
     # CREATE SPACES
     @spaces = []
-    @word.length.times do
+    word.length.times do
       @spaces << "__"
     end
     puts "created initial spaces"
@@ -67,7 +73,7 @@ class Board
 
     # UPDATE SPACES
     puts "updating spaces"
-    word_array = @word.split("")
+    word_array = word.split("")
     word_array.each_with_index do |letter, index |
       if  letter == @player_guess
         @spaces[index] = letter
@@ -82,36 +88,16 @@ end
 class Game
 
   def initialize
-    @pond
     @player_guess
     @words = ["big", "small", "cat", "turtle"] #[some list of words]
     @counter = 0
     @word = @words.sample
     @letters_guessed = []
     @spaces = []
-    @frog
-    @lilypad
+    @board = Board.new(@word)
     puts "word is #{@word}."
-    create_pond
-    create_spaces
     run_turn
   end
-
-  #TO DO
-  # all the restart stuff
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   def display_guessed_letters
@@ -125,8 +111,7 @@ class Game
   end
 
   def run_turn
-    display_pond
-    display_spaces
+    @board.display_board
     display_guessed_letters
     get_player_input
     check_if_game_over
@@ -141,8 +126,7 @@ class Game
       @word = @words.sample
       @letters_guessed = []
       puts "word is #{@word}."
-      create_pond
-      create_spaces
+      @board = Board.new(@word)
       run_turn
     when "no"
       exit
@@ -174,19 +158,10 @@ class Game
   end
 
   def check_if_guess_is_right
-    if @word.include? @player_guess #correct letter guess!
-      puts "correct letter guess"
-      puts "counter is #{@counter}"
-      update_spaces
-      # update_spaces #update spaces with the letter
-    else #wrong letter guess
-      puts "wrong letter guess"
+    if !@word.include? @player_guess
       @counter += 1
-      update_pond
-      puts "counter is #{@counter}"
-      puts "update pond gets called"
-      # update_pond # frog position moves
     end
+    @board.update_board
   end
 
   def check_if_game_over
