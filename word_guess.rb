@@ -17,8 +17,10 @@ class Game
   end
 
   #TO DO
-  #display pond
-  #update @pond
+  # display pond
+  # update @pond
+  # display guessed letters
+
 
 
 
@@ -30,8 +32,7 @@ def create_pond
     (----)  \n
    ( >__< ) \n
    ^^ ~~ ^^ \n
-  ----------
-  "
+  ----------"
   @lilypad = "----------"
   @pond = []
 
@@ -39,20 +40,15 @@ def create_pond
   4.times do
     @pond << @lilypad
   end
-
+  # puts @pond
 end
 
 def display_pond
+  @pond.each do |space|
+    print space + "  "
+  end
+  puts
 
-  # called when the counter changes
-  # and at the start
-  # array with 5 elements
-  # frog is at index that matches counter
-  # everything else equals a lilypad
-  # frog variable
-  # lilypad variable
-  # used to populate array
-  # iterate through
   puts "displaying pond"
 end
 
