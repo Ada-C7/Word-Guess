@@ -5,7 +5,7 @@ class  WordGame
   attr_accessor :answer_array, :empty_array, :wrong_guesses
   attr_reader :answer
 
-  def initialize
+ def initialize
     @answer = Faker::Cat.name.upcase
     @guess
     @answer_array = @answer.split("")
@@ -14,25 +14,26 @@ class  WordGame
     @flower = ["(@)", "(@)", "(@)", "(@)", "(@)"]
   end
 
-  # gets guess from user
+ # gets guess from user
   def run_game
     while @wrong_guesses.length < 5 && @answer_array != @empty_array
       print "Guess: "
       @guess = gets.chomp.upcase
+      until /[A-Z]/.match(@guess) && @guess.length == 1
+          puts "Please enter a single letter!"
+          print "Guess: "
+          @guess = gets.chomp.upcase
+      end
       evaluate
       display
       puts "\n"
       run_game
     end
-
     end_game
   end
 
-  # resets variables for new game
-  def reset
-  end
 
-  # *** evaluates whether the user's guess was a valid input
+ # *** evaluates whether the user's guess was a valid input
   # *** makes sure user hasn't already guessed that letter?
   # evaluates the user's guess as correct or incorrect
   def evaluate
@@ -43,22 +44,22 @@ class  WordGame
     end
   end
 
-  # displays correct letter
+ # displays correct letter
   def correct
     index_array = @answer_array.each_index.select {|index| @answer_array[index] == @guess}
 
-    index_array.each do |index|
+   index_array.each do |index|
       @empty_array[index] = @guess
     end
   end
 
-  # removes a flower if answer is incorrect
+ # removes a flower if answer is incorrect
   def incorrect
     @wrong_guesses << @guess
     @flower.pop
   end
 
-  # displays how many petals are left
+ # displays how many petals are left
   # displays blank spaces and correct letters
   # display wrong guesses
   def display
@@ -72,7 +73,7 @@ class  WordGame
     puts "\nWrong Guesses: #{@wrong_guesses.join(" ")}"
   end
 
-  # tells user whether they won or lost
+ # tells user whether they won or lost
   # if they lost displays word
   # prompts user to play again
   def end_game
@@ -82,12 +83,12 @@ class  WordGame
       puts "YOU RAN OUT OF GUESSES. The correct word was #{@answer}."
     end
 
-    print "\nWould you like to play again? (YES/NO): "
+   print "\nWould you like to play again? (YES/NO): "
     response = gets.chomp.downcase
 
-    if response == "yes"
-      # reset
-      run_game
+   if response == "yes"
+        new_game = WordGame.new
+        puts new_game.run_game
     else
       puts "GOODBYE!"
       exit
