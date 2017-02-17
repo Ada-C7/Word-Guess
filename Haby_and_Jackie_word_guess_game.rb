@@ -2,9 +2,9 @@
 
 class WordGuess
 
-attr_accessor :user_guess, :words, :flower
+  attr_accessor :user_guess, :words, :flower
 
-WORDS_ARRAY = [ "hello", "elephant", "gum"]
+  WORDS_ARRAY = [ "hello", "elephant", "gum"]
 
   def initialize
 
@@ -15,7 +15,7 @@ WORDS_ARRAY = [ "hello", "elephant", "gum"]
     @flower.each do |bud|
       print bud
     end
-
+    @chosen_word_array = @word.chars.to_a
     @correct_word = []
     @incorrect_letters = []
     @word.length.times do
@@ -29,11 +29,12 @@ WORDS_ARRAY = [ "hello", "elephant", "gum"]
 
   end
 
-  def checking_letters
-    chosen_word_array = @word.chars.to_a
-    #counter = 0
+  def check_letters
+
+
+
     if @word.include?(@user_guess)
-      chosen_word_array.each_with_index do |letter, index|
+      @chosen_word_array.each_with_index do |letter, index|
         if letter == @user_guess
           @correct_word[index] = letter
           # puts @correct_word
@@ -41,20 +42,30 @@ WORDS_ARRAY = [ "hello", "elephant", "gum"]
           # else
           #   @incorrect_letters << @user_guess
           #
+
         end
         # counter += 1
       end
-      print @correct_word
-      puts
+
     else
       @incorrect_letters << @user_guess
       @flower.pop
-      print @flower
-    end
-    puts "these are incorrect"
-    puts @incorrect_letters
-  end
 
+    end
+    print @flower
+    print @correct_word
+    puts
+    puts "these are incorrect"
+    print @incorrect_letters
+    puts
+  end
+  # end
+  def check_word
+    if @chosen_word_array == @correct_word
+      puts "You Won!"
+      exit
+    end
+  end
   def remove_flower
   end
 
@@ -77,11 +88,14 @@ puts "welcome to Word Guess!"
 puts "Here is your secret word you have to guess!"
 newgame = WordGuess.new
 
-puts "Please enter a letter: "
-newgame.user_guess = gets.chomp
+while newgame.flower.length > 0
+  puts "Please enter a letter: "
+  newgame.user_guess = gets.chomp
 
-
-newgame.checking_letters
+  newgame.check_letters
+  newgame.check_word
+end
+puts "No more guesses!"
 
 # puts newgame.words
 
