@@ -43,3 +43,34 @@ while true
 end
 
 end
+
+def make_marquee
+
+  marquee_array = []
+  game_word.length.times do
+    marquee_array << "_"
+  end
+  print marquee_array
+
+end
+
+
+#CODE CALLED IN game_word
+print "\nwhat is your guess?"
+letter = gets.chomp
+
+game_word_array = game_word.split("")
+  if game_word_array.include?(letter)
+    #iterate through game array, return the index(s)
+    #that include that letter
+    replace = game_word_array.each_index.select do |index|
+      game_word_array[index] == letter
+    end
+    #for each index number that matches letter
+    #replace the _ with letter in marquee
+    replace.each do |matching_index|
+      marquee_array[matching_index] = letter
+    end
+  end
+
+print marquee_array
