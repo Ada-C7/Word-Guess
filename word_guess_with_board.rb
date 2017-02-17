@@ -5,12 +5,85 @@ class Board
   end
 
   def create_board
+
+    def create_pond
+      @pond = []
+      @frog = "____🐸____"
+      @lilypad = "_________"
+      @pond = []
+
+      @pond << @frog
+      4.times do
+        @pond << @lilypad
+      end
+      # puts @pond
+    end
+
+    def create_spaces
+      @spaces = []
+      @word.length.times do
+        @spaces << "__"
+      end
+      puts "created initial spaces"
+    end
+
   end
 
   def display_board
+
+    def display_pond
+      @pond.each do |space|
+        print space + "  "
+      end
+      puts
+
+      puts "displaying pond"
+    end
+
+
+      def display_spaces
+        @spaces.each do |space|
+          print space + "\t"
+        end
+        puts
+        puts "displaying spaces"
+      end
+
   end
 
   def update_board
+
+    def update_pond
+
+      @pond.length.times do |n|
+        if n < @counter || n > @counter
+          @pond[n] = @lilypad
+        else
+          @pond[n] = @frog
+        end
+      end
+
+      # PLEASE TELL US WHY THIS LOOP DIDN'T WORK
+      # @pond.each_with_index do |space, index|
+      #   if @counter == index
+      #     space = @frog
+      #   else
+      #     space = @lilypad
+      #   end
+      # end
+      puts "updating pond"
+    end
+
+  end
+
+  def update_spaces
+    puts "updating spaces"
+    word_array = @word.split("")
+    word_array.each_with_index do |letter, index |
+      if  letter == @player_guess
+        @spaces[index] = letter
+      end
+    end
   end
 
 end
@@ -40,76 +113,18 @@ class Game
   # all the restart stuff
 
 
-def create_pond
-  @pond = []
-  @frog = "____🐸____"
-  @lilypad = "_________"
-  @pond = []
-
-  @pond << @frog
-  4.times do
-    @pond << @lilypad
-  end
-  # puts @pond
-end
-
-def display_pond
-  @pond.each do |space|
-    print space + "  "
-  end
-  puts
-
-  puts "displaying pond"
-end
 
 
-def update_pond
-
-  @pond.length.times do |n|
-    if n < @counter || n > @counter
-      @pond[n] = @lilypad
-    else
-      @pond[n] = @frog
-    end
-  end
-
-  # PLEASE TELL US WHY THIS LOOP DIDN'T WORK
-  # @pond.each_with_index do |space, index|
-  #   if @counter == index
-  #     space = @frog
-  #   else
-  #     space = @lilypad
-  #   end
-  # end
-  puts "updating pond"
-end
 
 
-  def create_spaces
-    @spaces = []
-    @word.length.times do
-      @spaces << "__"
-    end
-    puts "created initial spaces"
-  end
 
-  def display_spaces
-    @spaces.each do |space|
-      print space + "\t"
-    end
-    puts
-    puts "displaying spaces"
-  end
 
-  def update_spaces
-    puts "updating spaces"
-    word_array = @word.split("")
-    word_array.each_with_index do |letter, index |
-      if  letter == @player_guess
-        @spaces[index] = letter
-      end
-    end
-  end
+
+
+
+
+
+
 
   def display_guessed_letters
     if @letters_guessed.length >0
