@@ -19,13 +19,20 @@ class WordGame
   def initialize
     @word = ["pizza", "jumpy", "hello", "world", "quack", "taxes"].sample
     # test initialize (below)
-    @guess = "p"
+    @open_game = open_game
+    @guess = guess
     @word_with_blanks = word_with_blanks
     print @word
   end
 
   def open_game
-    puts "Welcome to WORD GAME!"
+    puts "\nWelcome to the DUCKLING WORD GAME!"
+    puts "\nYou have 5 guesses to guess the word or the ducklings will swim away."
+    puts "
+       _          _          _          _          _
+     >(')____,  >(')____,  >(')____,  >(')____,  >(') ___,
+      (` =~~/    (` =~~/    (` =~~/    (` =~~/    (` =~~/
+   ~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~"
   # rules/instruction
   # first artwork
   end
@@ -41,6 +48,8 @@ class WordGame
   end
 
   def guess
+    puts "Which letter would you like to guess?"
+    @guess = gets.chomp.downcase
   # -prompt and get one letter from user
   end
 
