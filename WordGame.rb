@@ -5,6 +5,7 @@ class Word
 
     def initialize
         @stringword = 'ada' # Faker::Cat.name.downcase
+        @player_lives = 3
     end
 
     def dashes
@@ -16,41 +17,52 @@ class Word
     end
 
     def guess
-        @letter = ''
-
-        until ('a'..'z').cover?(@letter)
-            print "\nPlease guess a letter! (a..z):  "
-            @letter = gets.chomp.downcase
-        end
-
         @userguesses = []
-        @userguesses << @letter
-        puts
-        puts 'You have guessed ' + @userguesses.to_s + 'thus far'
-        @arrayword = @stringword.split('')
 
-        if @arrayword.include?(@userguesses.last)
+        until @arrayword == @answer
 
-            @arrayword.each_with_index do |_val, index|
-                @answer[index] = if @arrayword[index] == @userguesses.last
-                                     @userguesses.last
-                                 else
-                                     '_'
-                                     end
+            @letter = ''
 
-                print @answer.join(' ')
+            until ('a'..'z').cover?(@letter)
+                print "\nPlease guess a letter! (a..z):  "
+                @letter = gets.chomp.downcase
             end
-        else
-            puts 'Wrong!'
+
+            @userguesses << @letter
+            puts
+
+            @arrayword = @stringword.split('')
+
+            if @arrayword.include?(@userguesses.last)
+
+                @arrayword.each_with_index do |_val, index|
+                    @answer[index] = if @arrayword[index] == @userguesses.last && !(@answer[index] == '_')
+                                         @userguesses.last
+                                     else
+                                         '_'
+                                         end
+                    print @answer
+                end
+            else
+                puts 'Wrong!'
+                lose_life(@userguesses)
+            end
+            puts 'You have guessed ' + @userguesses.to_s + 'thus far'
+            puts
+            print @answer.join(' ')
+            if @player_lives == 0
+                puts 'Boo!'
+                break
+          end
         end
-    end
+  end
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*
     private
 
     def lose_life(letter)
         if !@stringword.include?(@letter) && !@arrayword.include?(letter)
-            @player_lives = - 1
+            @player_lives -= 1
         end
     end
 end
