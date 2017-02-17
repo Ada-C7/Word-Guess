@@ -19,20 +19,24 @@ class WordGame
   def initialize
     @word = ["pizza", "jumpy", "hello", "world", "quack", "taxes"].sample
     # test initialize (below)
+    @duck_count = 5
     @open_game = open_game
+    print @word
     @guess = guess
     @word_with_blanks = word_with_blanks
-    print @word
+    # print @word
+
   end
 
   def open_game
     puts "\nWelcome to the DUCKLING WORD GAME!"
     puts "\nYou have 5 guesses to guess the word or the ducklings will swim away."
-    puts "
-       _          _          _          _          _
-     >(')____,  >(')____,  >(')____,  >(')____,  >(') ___,
-      (` =~~/    (` =~~/    (` =~~/    (` =~~/    (` =~~/
-   ~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~"
+    after_turn
+  #   puts "
+  #      _          _          _          _          _
+  #    >(')____,  >(')____,  >(')____,  >(')____,  >(') ___,
+  #     (` =~~/    (` =~~/    (` =~~/    (` =~~/    (` =~~/
+  #  ~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~"
   # rules/instruction
   # first artwork
   end
@@ -45,16 +49,18 @@ class WordGame
         print " _ "
       end
     end
+    after_turn
   end
 
   def guess
-    puts "Which letter would you like to guess?"
+    print "Which letter would you like to guess? "
     @guess = gets.chomp.downcase
   # -prompt and get one letter from user
+    return @guess
   end
 
-  def correct?
-  # 	include?
+  def correct? # true if guess is in word
+    @word.include?(@guess)
   end
 
   def validate
@@ -66,10 +72,46 @@ class WordGame
   # Note: keep track of guessed letters
   end
 
-private
+  private
 
   def after_turn
+    case @duck_count
+    when 5
+      puts "
+        _          _          _          _          _
+      >(')____,  >(')____,  >(')____,  >(')____,  >(') ___,
+      (` =~~/    (` =~~/    (` =~~/    (` =~~/    (` =~~/
+      ~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~"
+    when 4
+      puts "
+        _          _          _          _
+      >(')____,  >(')____,  >(')____,  >(')____,
+      (` =~~/    (` =~~/    (` =~~/    (` =~~/
+      ~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~"
 
+    when 3
+      puts "
+        _          _          _
+      >(')____,  >(')____,  >(')____,
+      (` =~~/    (` =~~/    (` =~~/
+      ~^~^`---'~^~^~^`---'~^~^~^`---'~^~"
+
+    when 2
+      puts "
+        _          _
+      >(')____,  >(')____,
+      (` =~~/    (` =~~/
+      ~^~^`---'~^~^~^`---'~^~"
+
+    when 1
+      puts "
+        _
+      >(')____,
+      (` =~~/
+      ~^~^`---'~^"
+    else
+      puts @duck_count
+    end
   end
 
 end
