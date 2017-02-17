@@ -1,6 +1,7 @@
 class Game
 
   def initialize
+    @pond = []
     @player_guess
     @words = ["big", "small", "cat", "turtle"] #[some list of words]
     @counter = 0
@@ -13,8 +14,13 @@ class Game
   end
 
   #TO DO
+
   #handle multiple letters in the same word (e.g. t in turtle)
-  #display pond and spaces and update pond and spaces
+  #add letter to @spaces
+  #update @pond
+  #update @spaces
+  #check @spaces for winning word
+  #how to track position of word (possibly with counter) --maybe a position var
 
   def create_spaces
     @spaces = []
@@ -27,10 +33,25 @@ class Game
   def display_spaces
     @spaces.each do |space|
       print space + "\t"
-
     end
     puts
     puts "displaying spaces"
+  end
+
+  def update_spaces
+    puts "updating spaces"
+    #when we have a correct guess, find that letter in @word
+
+    word_array = @word.split("")
+    word_array.each_with_index do |letter, index |
+      if  letter == @player_guess
+        @spaces[index] = letter
+      end
+    end
+
+    # if player guess matches an index in @word, then put player_guess into the spaces variable at the same index
+
+
   end
 
 
@@ -64,9 +85,7 @@ class Game
     puts "updating pond"
   end
 
-  def update_spaces
-    puts "updating spaces"
-  end
+
 
   def continue_or_quit
     print "Would you like to play again? (yes/no) "
@@ -110,6 +129,7 @@ class Game
     if @word.include? @player_guess #correct letter guess!
       puts "correct letter guess"
       puts "counter is #{@counter}"
+      update_spaces
       # update_spaces #update spaces with the letter
     else #wrong letter guess
       puts "wrong letter guess"
@@ -127,6 +147,7 @@ class Game
     end
     if @spaces.join == @word
       puts "you win!"
+      display_spaces
       continue_or_quit
     end
     puts "checked game over status and no result"
