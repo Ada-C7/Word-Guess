@@ -1,55 +1,65 @@
 # define class
 class  WordGame
-attr_accessor :answer, :answer_array, :empty_array
+  attr_accessor :answer, :answer_array, :empty_array, :wrong_guesses
 
- def initialize
+  def initialize
     @answer = "cat"
     @guess
     @answer_array = @answer.split("")
     @empty_array = Array.new(@answer_array.length, " _ ")
+    @wrong_guesses = []
   end
 
- # gets guess from user
+  # gets guess from user
   def guess
-    puts "Enter guess: "
-    @guess = gets.chomp
+    while @wrong_guesses.length < 5 && @answer_array != @empty_array
+      puts "Enter guess: "
+      @guess = gets.chomp
+      evaluate
+      guess
+    end
   end
 
- # compares the user's letter to answer array
+  # compares the user's letter to answer array
   def evaluate
-    @answer_array.each do |letter|
-      if @answer_array.include?(@guess)
-        return "correct!"
-      else
-        return "incorrect"
-      end
+    if @answer_array.include?(@guess)
+      correct
+      puts "correct!"
+      puts @empty_array
+    else
+      incorrect
+      puts "incorrect"
     end
   end
 
-   # method if answer is correct
-    def correct
-        @answer_array.each do |letter|
-        #find index of answer_array
-        if letter == @guess
-            index = @answer_array.index(@guess)
-            @empty_array[index] = @guess
-            puts @empty_array
-         end
+  # method if answer is correct
+  def correct
+    @answer_array.each do |letter|
+      #find index of answer_array
+      if letter == @guess
+        index = @answer_array.index(@guess)
+        @empty_array[index] = @guess
+        # puts @empty_array
       end
     end
-#
-#   # method if answer is wrong
-#   def incorrect
-#
-#   end
-#
+  end
+  #
+  # method if answer is wrong
+  # penalize if wrong
+  # take away a petal
+  # display wrong guesses
+
+  def incorrect
+    @wrong_guesses << @guess
+  end
+
 end
 
 word = WordGame.new
-puts word.answer
+# puts word.answer
+puts word.guess
 print word.answer_array
 print word.empty_array
-
-puts word.guess
-puts word.evaluate
-puts word.correct
+# puts word.correct
+# puts word.empty_array
+#puts word.wrong_guesses
