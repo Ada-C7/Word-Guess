@@ -1,6 +1,5 @@
 require 'terminal-table'
 require 'colorize'
-require 'faker'
 
 class User
   attr_accessor :difficulty, :letter_guessed, :word_to_guess
