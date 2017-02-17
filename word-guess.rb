@@ -20,13 +20,13 @@ class GamePlay
 
   def update_word
     # Updates dashes with the correct letters
-    @word_placeholders = @word_array.map do |letter|
+    @word_array.each_with_index  do |letter, index|
       if letter == @letter_guess
-        @letter_guess
-      else "-"
+        @word_placeholders[index] = letter
       end
     end
-    p @word_placeholders
+      p @word_placeholders
+    # return @word_placeholders
   end
   # end
   #
@@ -38,7 +38,7 @@ class GamePlay
   #   end
 
   def check_letters?
-  #checks if guessed letters are in our word
+    #checks if guessed letters are in our word
     return @word_array.any? { |guess_match| @letter_guess.include?(guess_match)}
   end
 
@@ -47,10 +47,11 @@ class GamePlay
   end
 
   def update_result #passage of time #private?
-    if @chances_left > 0
+    until @chances_left == 0 do
       if check_letters?
         puts "Good job!"
         update_word
+        @word_placeholders
       else
         puts "Wrong guess"
         add_to_incorrect_guess_array
@@ -58,14 +59,14 @@ class GamePlay
         @chances_left -= 1
         #remove a chance from ASCII
       end
-    else
-      puts "Sorry! You weren't able to guess the right word."
+      puts "Enter another letter:"
+      @letter_guess = gets.chomp
+    end
+    puts "Sorry! You weren't able to guess the right word."
     exit
   end
-  end
-
-
 end
+
 
 # File.open(file_name) do |f|
 # f.each_line do |line|
