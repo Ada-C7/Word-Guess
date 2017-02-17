@@ -34,6 +34,7 @@ def begin_game
   while @correct_letter_array != []
     turn
   end
+  continue_game
 end
 
 
@@ -74,12 +75,30 @@ end
 
       if game_end?
         puts "You used up all the chances."
-        exit
-        #continue_game
+        continue_game
       end
 
 
     end
+
+
+    def continue_game   ###########
+      print "Do you want to keep playing? (Y to play / N to quit):"
+      answer = gets.chomp.downcase
+      until answer == "y"|| answer =="n"
+        print "Enter Y/N: "
+        answer = gets.chomp.downcase
+      end
+      if answer == "n"
+        exit
+      else
+        new_game = WordGuess.new
+      end
+    end
+
+
+
+
 
     private
 
