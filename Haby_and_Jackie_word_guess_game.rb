@@ -4,23 +4,12 @@ class WordGuess
 
   attr_accessor :user_guess, :words, :flower
 
-  WORDS_ARRAY = [ "hello", "elephant", "gum"]
+  WORDS_ARRAY = [ "hello", "elephant", "gum", "glasses", "developer", "seattle", "sunshine"]
 
   def initialize
 
-    @word = WORDS_ARRAY[rand(0..2)].upcase
+    @word = WORDS_ARRAY[rand(0..6)].upcase
     @flower = ["@ ","@ ","@ ","@ ","@ "]
-
-    @flower.each do |bud|
-      print bud
-    end
-    puts
-    puts ",\\,\\|/,/,"
-    puts "  _\\|/_"
-    puts " |_____|"
-    puts "  |   |"
-    puts "  |___| "
-    puts
 
     @chosen_word_array = @word.upcase.chars.to_a
 
@@ -40,13 +29,38 @@ class WordGuess
 
   end
 
+  def show_flower
+    @flower.each do |bud|
+      print bud
+    end
+    puts
+    puts ",\\,\\|/,/,"
+    puts "  _\\|/_"
+    puts " |_____|"
+    puts "  |   |"
+    puts "  |___| "
+    puts
+  end
+
+  def show_correct_word
+    @correct_word.each do |letter|
+      print "#{letter} "
+    end
+  end
+
+  def show_incorrect_guesses
+    puts "Incorrect Guesses: "
+    @incorrect_letters.each do |letter|
+      print letter + " "
+    end
+  end
+
   def verify_input
     while @user_guess.length > 1
       puts "Please enter a single letter. Thanks"
       @user_guess = gets.chomp.upcase
     end
   end
-
 
   def check_letters
 
@@ -63,48 +77,31 @@ class WordGuess
       @flower.pop
 
     end
-    puts
-    puts
-    # displays leftover flower buds each round
-    @flower.each do |bud|
-      print bud + " "
-    end
-    puts
-    puts ",\\,\\|/,/,"
-    puts "  _\\|/_"
-    puts " |_____|"
-    puts "  |   |"
-    puts "  |___| "
-    puts
-    # displays correct letters or unguessed letters each round
-    @correct_word.each do |letter|
-      print letter + " "
-    end
-    puts
 
+    # displays leftover flower buds each round
+    show_flower
+    # displays correct letters or unguessed letters each round
+    show_correct_word
+    puts
     # displays incorrect inputs each guess
-    puts "Incorrect Guesses: "
-    @incorrect_letters.each do |letter|
-      print letter + " "
-    end
+    show_incorrect_guesses
     puts
     puts
   end
   # end
   def check_word
     if @chosen_word_array == @correct_word
-      puts "You Won!"
+      puts "You Guessed It!"
       exit
     end
   end
-
-
 end
 
 puts "welcome to Word Guess!"
 puts "Here is your secret word you have to guess!"
 puts
 newgame = WordGuess.new
+newgame.show_flower
 
 while newgame.flower.length > 0
   puts "Please enter a letter: "
@@ -113,7 +110,8 @@ while newgame.flower.length > 0
   newgame.check_letters
   newgame.check_word
 end
-puts "No more guesses!"
+puts "Your plant died and you have no more guesses!"
+puts "GAME OVER"
 
 # puts newgame.words
 
