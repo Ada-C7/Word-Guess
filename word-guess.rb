@@ -1,6 +1,6 @@
 require 'faker'
 class GamePlay
-  attr_reader :word_array
+  attr_reader :word_array, :letter_guess, :word_placeholders
 
   def initialize
     puts "Enter a letter:"
@@ -23,6 +23,7 @@ class GamePlay
       @letter_guess
     else "-"
     end
+  end
     p @word_placeholders
   end
   # end
