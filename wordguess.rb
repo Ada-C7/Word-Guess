@@ -23,7 +23,7 @@ class WordGuess
   end
 
   def gen_word
-   array_of_words = ["pug", "stumptown"] #{}"normcore", "pitchfork", "chillwave", "cardigan"]
+   array_of_words = ["pug", "stumptown"] #"normcore", "pitchfork", "chillwave", "cardigan"]
    @word = array_of_words[rand(0..1)]
   end
 
@@ -70,14 +70,14 @@ o    :    *   * :\ -  o    +
     else
       @counter += 1
       self.update_guessed_letters
-      self.update_ascii
+      # self.update_ascii
     end
   end
 
   def game
     until @word_as_dashes.join == @word || @counter == 5
       guess
-      puts "ascii"
+      puts update_ascii
       puts @word_as_dashes.join
       puts "wrong guesses: #{@guessed_array}"
       next
@@ -93,6 +93,19 @@ o    :    *   * :\ -  o    +
   def update_ascii
     # @ascii = @ascii.delete("*")
     # puts "ascii"
+    if @counter == 0
+      puts ascii
+    elsif @counter == 1
+      puts ascii.tr('*', ' ')
+    elsif @counter == 2
+      puts ascii.tr('.*', ' ')
+    elsif @counter == 3
+      puts ascii.tr('+.*', ' ')
+    elsif @counter == 4
+      puts ascii.tr('o+.*', ' ')
+    elsif @counter == 5
+      puts ascii.tr(':o+.*', ' ')
+    end
   end
 
   def update_dash
@@ -108,7 +121,6 @@ o    :    *   * :\ -  o    +
     @guessed_array << @guess
     # puts @guessed_array
   end
-
 
 end
 
