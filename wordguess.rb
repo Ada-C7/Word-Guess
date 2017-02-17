@@ -1,18 +1,23 @@
 require 'terminal-table'
 require 'colorize'
+require 'faker'
 
 class User
   attr_accessor :difficulty, :letter_guessed, :word_to_guess
+  attr_reader :theme
 
   def initialize
     @difficulty = 0
     @letter_guessed
     @word_to_guess
+    @theme = ""
     puts "Welcome to Word Guess!".blink
     prompt
   end
 
   def prompt
+    options = ["Default", "Food", "Hacker", "Game of Thrones",
+     "Lord of the Rings"]
     rows = []
     rows << ["Easy".colorize(:green), 10]
     rows << ["Medium".colorize(:yellow), 7]
@@ -32,12 +37,34 @@ class User
       puts "That's not a valid input"
       prompt
     end
+
+    puts "Pick your theme:"
+    options.each do |option|
+      puts "#{option}"
+    end
+    @theme = gets.chomp.downcase
     word
   end
 
   def word
-    options = ["cast", "puppy", "pineapple", "bananas"]
-    @word_to_guess = options.sample
+    options = []
+    case @theme
+    when "default"
+      options = ["cast", "puppy", "pineapple", "bananas"]
+      @word_to_guess = options.sample
+    when "food"
+      options = ["mango", "papaya", "guava", "apples", "lychee"]
+      @word_to_guess = options.sample
+    when "hacker"
+      options = ["bandwidth", "synthesize", "bypass", "cyberpunk", "firewall"]
+      @word_to_guess = options.sample
+    when "game of thrones"
+      options = ["stark", "lannister", "arya", "hodor", "meereen"]
+      @word_to_guess = options.sample
+    when "lord of the rings"
+      options = ["lothorien", "galadriel", "frodo", "bombadil", "goldberry"]
+      @word_to_guess = options.sample
+    end
   end
 
 
@@ -62,7 +89,7 @@ class GamePlay
   def graphic
     flower = []
     @counter.times do
-      flower << "(@)"
+      flower << "(@)".colorize(:red)
     end
 
 
