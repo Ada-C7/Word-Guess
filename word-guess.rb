@@ -1,9 +1,11 @@
+require 'faker'
+
 # define class
 class  WordGame
  attr_accessor :answer, :answer_array, :empty_array, :wrong_guesses
 
 def initialize
-   @answer = "hello"
+   @answer = Faker::Cat.name
    @guess
    @answer_array = @answer.split("")
    @empty_array = Array.new(@answer_array.length, " _ ")
@@ -14,10 +16,11 @@ def initialize
 # gets guess from user
  def guess
    while @wrong_guesses.length < 5 && @answer_array != @empty_array
-     print "Enter guess: "
+     print "\nEnter guess: "
      @guess = gets.chomp
      evaluate
      display
+     puts "\n"
      guess
    end
  end
@@ -25,11 +28,11 @@ def initialize
 # compares the user's letter to answer array
  def evaluate
    if @answer_array.include?(@guess)
+     puts "\ncorrect!"
      correct
-     puts "correct!"
    else
+     puts "\nincorrect"
      incorrect
-     puts "incorrect"
    end
  end
 
@@ -40,6 +43,7 @@ def initialize
   index.each do |index|
        @empty_array[index] = @guess
    end
+
    # puts @empty_array
  end
  #
@@ -66,8 +70,9 @@ end
 
 # puts word.answer
 puts "WELCOME TO OUR WORD GAME"
+puts "Guess the cat's name!"
 word = WordGame.new
-word.guess
+puts word.guess
 # puts word.correct
 # puts word.empty_array
 #puts word.wrong_guesses
