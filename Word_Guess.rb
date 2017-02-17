@@ -5,12 +5,13 @@ library = ["HAI", "HAIRCUT", "POTATO"]
 
 # define class Turn and begin to elaborate methods
 class Game
-  attr_accessor :blanks
+  attr_accessor :blanks, :letter_positions
 
   def initialize(library)
     @library = library
     # @word_array
     @blanks = []
+    @letter_positions = []
     @counter = 0
     @win = false
 
@@ -22,7 +23,7 @@ class Game
   def select_word
     #select word from library
     limit = @library.length
-    chosen_word = @library[rand(limit)]
+    chosen_word = @library[rand(limit)] #havent seen rand used this way, inside of array instead of "on array"
 
     #treat word as array of characters
     @word_array = chosen_word.chars
@@ -31,16 +32,17 @@ class Game
     puts @word_array
   end
 
-  def turn
+  def turn #loop turn with conditionals
     puts "What's your letter guess?"
     @guess = gets.chomp.upcase
-    check_guess
+    puts check_guess
+    puts @letter_positions
     #what happens if correct or not
     #if correct .push array
 
     draw_blanks
 
-    update_guess_counter
+
     check_game_state
 
 
@@ -50,27 +52,45 @@ class Game
   end
 
   def check_guess
-    if @word_array.include?(@guess)
-      correct = true
-    else correct = false
+
+    @word_array.each_with_index do |letter, index|
+      if letter == @guess
+        @letter_positions << index
+      end
     end
-    return correct
+
+
+    if @letter_positions.length > 0
+        return true
+    else
+      @counter += 1
+      return false
+    end
+    # return correct
   end
+  #could/should update_guess_counter  be called in this method instead?
 
   def draw_blanks
     @word_array.length
     @word_array.length.times do
       @blanks << "_"
     end
-    puts @blanks
+    #checking by position instead of contents
+    @blanks.each_with_index do |blank, index|
+      if @letter_positions.include?(index)
+        print @word_array[index]
+      else
+        print blank + " "
+      end
+  
+    end
+    print "\n"
   end
 
 
   #draw unerscores
   #replace underscores with letters
-  def update_guess_counter
-    @counter += 1
-  end
+
 
   def check_game_state
     # if all letters have been guessed
@@ -78,7 +98,7 @@ class Game
 
     # if counter reaches maximum
     #game is over
-    if @counter > 5
+    if @counter > 5 # or.length(-however many)
       puts "You lost."
       exit
     end
@@ -89,4 +109,5 @@ class Game
 end
 game = Game.new(library)
 game.select_word
+game.turn
 game.turn
