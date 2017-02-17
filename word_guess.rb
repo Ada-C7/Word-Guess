@@ -10,6 +10,7 @@ class Game
   end
 
   def display_pond
+
     # called when the counter changes
     # and at the start
     # array with 5 elements
@@ -35,7 +36,22 @@ class Game
     puts "updating spaces"
   end
 
+  def continue_or_quit
+    print "Would you like to play again? (yes/no) "
+    user_response = gets.chomp
+    case user_response
+    when "yes"
+      run_game
+    when "no"
+      exit
+    else
+      continue_or_quit
+    end
+    
+  end
+
   def run_game
+
     # check for done
       # if done
         # win
@@ -82,6 +98,7 @@ class Game
     end
     get_player_input
   end
+
 
 
 
