@@ -44,28 +44,30 @@ class User
 end
 
 class GamePlay
-  attr_accessor :user, :counter
+  attr_accessor :user, :counter, :puzzle_array, :word_array
 
   def initialize(user)
     @user = user
     @counter = user.difficulty
+    @puzzle_array = []
+    puzzle_length = user.word_to_guess.split('').length
+    puzzle_length.times do
+      @puzzle_array << "_  "
+    end
+    @word_array = user.word_to_guess.split('')
     game_play
   end
 
   def graphic
-    puzzle_array = []
     flower = []
     @counter.times do
       flower << "(@)"
     end
 
-    puzzle_length = user.word_to_guess.split('').length
-    puzzle_length.times do
-      puzzle_array << "_  "
-    end
+
     puts "#{flower.join}"
     puts
-    puts "#{puzzle_array.join}"
+    puts "#{@puzzle_array.join}"
   end
 
   def game_play
@@ -78,23 +80,30 @@ class GamePlay
   def guess
     puts "Enter a letter"
     letter = gets.chomp
-    word = user.word_to_guess.split('')
-    if word.include?(letter)
-      puts "Yes"
+    if @word_array.include?(letter)
+      @word_array.each_with_index do |char, index|
+        if char == letter
+          @puzzle_array[index] = letter
+        end
+      end
+      puts "Correct!"
     else
-      puts "no"
+      puts "Try again!"
     end
     @counter -= 1
-    puts @counter
 
   end
 
 
   def game_over
-    if counter == 0
-      true
+    if @counter == 0
+      puts "You didn't get it! The word was #{user.word_to_guess}"
+      return true
+    elsif @puzzle_array.join == user.word_to_guess
+      puts "Congrats! You won!"
+      return true
     else
-      false
+     return false
     end
   end
 
