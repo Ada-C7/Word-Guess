@@ -7,8 +7,23 @@ class Game
     @word = @words.sample
     @letters_guessed = []
     @spaces = []
-    # get_player_input
-    continue_or_quit
+    puts "word is #{@word}."
+    run_turn
+  end
+
+  #TO DO
+  #handle multiple letters in the same word (e.g. t in turtle)
+  #for testing, show counter all the time
+  #display pond and spaces and update pond and spaces
+
+
+  def run_turn
+    display_pond
+    display_spaces
+    puts "you have guessed: #{@letters_guessed}."
+    get_player_input
+    check_if_game_over
+    run_turn
   end
 
   def display_pond
@@ -43,7 +58,7 @@ class Game
     user_response = gets.chomp
     case user_response
     when "yes"
-      run_game
+      run_turn
     when "no"
       exit
     else
@@ -52,13 +67,6 @@ class Game
 
   end
 
-  def run_turn
-    display_pond
-    display_spaces
-    get_player_input
-    check_if_game_over
-    run_turn
-  end
 
 
   def get_player_input
