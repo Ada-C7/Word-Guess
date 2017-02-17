@@ -3,18 +3,29 @@ class GamePlay
   attr_reader :word_array
 
   def initialize
+    puts "Enter a letter:"
     @letter_guess = gets.chomp
-    word = Faker::Color.color_name
-   @word_array = word.scan /\w/
+    word = "green" #Faker::Color.color_name
+    @word_array = word.scan /\w/
+    # @word_placeholders = []
+    @word_placeholders = ("- "*@word_array.length).split(" ")
+    print @word_placeholders
     print @word_array #for testing
 
     #call update_image
     #call generate_word methods
   end
-# end
-#   def update_word
-#     #display the generated word in dashes (word.length * "-")
-#   end
+
+  def update_word
+  # Updates dashes with the correct letters
+    @word_placeholders = @word_array.map do |letter|
+    if letter == @letter_guess
+      @letter_guess
+    else "-"
+    end
+    p @word_placeholders
+  end
+  # end
 #
 #   def update_image (#Incorrect guess)
 #     #initial image with all 5 flowers
@@ -24,7 +35,6 @@ class GamePlay
 #   end
 
   def check_letters?
-
     puts @word_array.any? { |guess_match| @letter_guess.include?(guess_match)}
   end
 
@@ -51,4 +61,5 @@ class GamePlay
   #   print line
   # end
 new_game = GamePlay.new
-new_game.check_letters?
+new_game.update_word
+# new_game.check_letters?
