@@ -14,32 +14,40 @@ require 'Faker'
 class Game
   attr_reader  :random_word
   def initialize
-    # @flower = '
-    #   (@)(@)(@)(@)(@)
-    #     ,\,\,|,/,/,
-    #       _\|/_
-    #      |_____|
-    #       |   |
-    #       |___|'
     @counter = 0 # counts wrong guesses, if 5 - user lose
   end
+
   def empty_array?(array)
     array.each do |value|
         return false if value != ""
     end
   end
+
+  def display_underlines(array_of_underlines)
+    print "Word: "
+    array_of_underlines.each do |underline|
+      print underline
+    end
+  end
+
+
+  def find_place (random_word, user_guess, array_of_underlines)
+    random_word.each_with_index do |char, index|
+        if char == user_guess
+          array_of_underlines[index] = user_guess # put guessed letter in array of underlines
+          random_word[random_word.index(user_guess)] = ''
+        end
+      end
+  end
+
   def play_game
     stop_game = false
     until stop_game
       puts "Welcome to word guess game! "
-      random_word = Faker::Color.color_name.split''
+      random_word = "whiteblue".split''#Faker::Color.color_name.split''
       print random_word
-      puts
       array_of_underlines = Array.new(random_word.length, "_ ")
-      print "Word: "
-      array_of_underlines.each do |underline|
-        print underline
-      end
+      display_underlines(array_of_underlines)
       puts "\n Enter a letter or a full word:"
       flower = '
         (@)(@)(@)(@)(@)
@@ -53,20 +61,12 @@ class Game
         puts flower
         user_guess = gets.chomp
         if random_word.include? user_guess
-          # Find place in underline_array where to put guessed letter(s):
-          random_word.each_with_index do |char, index|
-              if char == user_guess
-                array_of_underlines[index] = user_guess # put guessed letter in array of underlines
-              end
-            end
-          random_word[random_word.index(user_guess)] = '' #change guessed letter in array to ''
-          print "Word: "
-          array_of_underlines.each do |underline|
-            print underline
-          end
-          puts
-          print random_word
-          puts
+          find_place(random_word, user_guess, array_of_underlines)
+
+          display_underlines(array_of_underlines)
+          # puts
+          # print random_word
+          # puts
         elsif !random_word.include? user_guess
           @counter += 1
           flower = flower.sub(/\(@\)/, '') # remove (@) from flower
@@ -75,7 +75,7 @@ class Game
           puts "You lost a game"
           stop_round = true
         end
-        if empty_array?(random_word) || (user_guess.split'') == random_word
+        if empty_array?(random_word)|| (user_guess.split'') == random_word
           puts "You guessed a word!"
           stop_round = true
         end
