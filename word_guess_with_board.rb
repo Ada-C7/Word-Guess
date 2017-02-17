@@ -1,11 +1,14 @@
 class Board
 
-  def initialize(word)
-    @pond
-    @frog
+  attr_accessor :spaces
+
+  def initialize(word, player_guess)
+    @pond = []
+    @frog = "____🐸____"
     @word = word
-    @lilypad
-    @spaces
+    @lilypad = "_________"
+    @spaces = []
+    @player_guess = player_guess
     create_board
     # @word ????
   end
@@ -13,19 +16,13 @@ class Board
   def create_board
 
     # CREATE POND
-    @pond = []
-    @frog = "____🐸____"
-    @lilypad = "_________"
-    @pond = []
-
     @pond << @frog
     4.times do
       @pond << @lilypad
     end
 
     # CREATE SPACES
-    @spaces = []
-    word.length.times do
+    @word.length.times do
       @spaces << "__"
     end
     puts "created initial spaces"
@@ -50,11 +47,13 @@ class Board
 
   end
 
-  def update_board
+  def update_board(counter, player_guess)
 
     # UPDATE POND
+    puts "updating pond"
+
     @pond.length.times do |n|
-      if n < @counter || n > @counter
+      if n < counter || n > counter
         @pond[n] = @lilypad
       else
         @pond[n] = @frog
@@ -69,23 +68,29 @@ class Board
     #     space = @lilypad
     #   end
     # end
-    puts "updating pond"
 
     # UPDATE SPACES
-    puts "updating spaces"
-    word_array = word.split("")
+    puts "before updating spaces, spaces is #{@spaces}"
+    word_array = @word.split("")
     word_array.each_with_index do |letter, index |
-      if  letter == @player_guess
+      if letter == player_guess
         @spaces[index] = letter
       end
     end
+    puts "after updating, spaces is #{@spaces}"
+  end
 
 end
+
+
 # TO DO:
 
 # attr_accessors etc
+# add faker for the @ word generation
+
 
 class Game
+  attr_accessor :word, :counter, :player_guess
 
   def initialize
     @player_guess
@@ -93,8 +98,8 @@ class Game
     @counter = 0
     @word = @words.sample
     @letters_guessed = []
-    @spaces = []
-    @board = Board.new(@word)
+    @spaces
+    @board = Board.new(@word, @player_guess)
     puts "word is #{@word}."
     run_turn
   end
@@ -126,7 +131,7 @@ class Game
       @word = @words.sample
       @letters_guessed = []
       puts "word is #{@word}."
-      @board = Board.new(@word)
+      @board = Board.new(@word, @player_guess)
       run_turn
     when "no"
       exit
@@ -158,10 +163,13 @@ class Game
   end
 
   def check_if_guess_is_right
+    puts "counter is now #{@counter}"
+
     if !@word.include? @player_guess
       @counter += 1
     end
-    @board.update_board
+    @board.update_board(@counter, @player_guess)
+
   end
 
   def check_if_game_over
@@ -169,9 +177,9 @@ class Game
       puts "you ran out of guesses"
       continue_or_quit
     end
-    if @spaces.join == @word
+    if @board.spaces.join == @word
       puts "you win!"
-      display_spaces
+      @board.display_board
       continue_or_quit
     end
     puts "checked game over status and no result"
