@@ -15,17 +15,9 @@ class  WordGame
   end
 
   # gets guess from user
-  # evaluates whether the user's guess was a valid input
   def run_game
     while @wrong_guesses.length < 5 && @answer_array != @empty_array
-      print "Guess: "
-      @guess = gets.chomp.upcase
-      until /[A-Z]/.match(@guess) && @guess.length == 1
-        wrong_input
-      end
-      while @wrong_guesses.include?(@guess) || @empty_array.include?(@guess)
-        wrong_input
-      end
+      check_input
       evaluate
       display
       run_game
@@ -33,11 +25,35 @@ class  WordGame
     end_game
   end
 
-  def wrong_input
-    puts "Please enter a single letter!"
-    print "Guess: "
-    @guess = gets.chomp.upcase
+  # evaluates whether the user's guess was a valid input
+  def check_input
+      print "Guess: "
+      @guess = gets.chomp.upcase
+      until /[A-Z]/.match(@guess) && @guess.length == 1
+        puts "Please enter a single letter."
+        check_input
+      end
+      while @wrong_guesses.include?(@guess) || @empty_array.include?(@guess)
+        puts "You've already guesses that!"
+        check_input
+      end
   end
+
+  def select_level
+    print "Select level [1] EASY, [2] MEDIUM, or [3] HARD: "
+    level = gets.chomp.downcase
+
+    if level == "1" || level == "easy"
+
+    elsif level == "2" || level == "medium"
+
+    elsif level == "3" || level == "hard"
+
+    else
+      select_level
+    end
+  end
+
 
   # makes sure user hasn't already guessed that letter
   # evaluates the user's guess as correct or incorrect
