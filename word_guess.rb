@@ -8,7 +8,7 @@ class WordGuess
     @correct_letter_array = []
 
     @correct_word.each_char do |letter|
-      if !(@correct_letter_array )
+      if !(@correct_letter_array.include?(letter))
         @correct_letter_array << letter
       end
     end
@@ -22,8 +22,18 @@ class WordGuess
     puts
     puts "- " * @correct_word.length
 
+
+  begin_game
+
+  end
+
+def begin_game
+  while @correct_letter_array != []
     turn
   end
+end
+
+
 
     def turn
       #WILL NOT BE IN REAL games
@@ -44,12 +54,15 @@ class WordGuess
       @correct_word.each_char do |n|
         if @used_letters.include?(n)
           print n
+
+          @correct_letter_array.delete(n)
         else
           print "_ "
         end
       end
       puts
     end
+
 
   end
 
