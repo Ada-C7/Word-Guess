@@ -7,10 +7,10 @@ class Game
     @win = false
     @answer = ["a", "n", "s", "w", "w", "e", "r"]
     @guesses = []
-    @misses = ["f","t"]
+    @misses = []
     @display = []
-    @guess_letter = "w"
-    @miss_at
+    @guess_letter = ""
+    @miss_art = ""
 
     # @show_index = show_index
   end
@@ -37,40 +37,38 @@ class Game
     length.times do
       @display.push("_")
     end
-      current_display = @display.join(' ')
-       print current_display
+    current_display = @display.join(' ')
+    print current_display
   end
 
-def check_misses
-misses = @misses.length
-  case misses
-  when 1
-    @miss_art = "gorilla.txt"
-  when 2
-    @miss_art = "gorilla1.txt"
-  when 3
-    @miss_art = "gorilla2.txt"
-  when 4
-    @miss_art = "gorilla3.txt"
-  when 5
-    @miss_art = "gorilla4.txt"
-  when 6
-    @miss_art = "gorilla5.txt"
+  def check_misses
+    misses = @misses.length
+    case misses
+    when 1
+      @miss_art = "gorilla.txt"
+    when 2
+      @miss_art = "gorilla1.txt"
+    when 3
+      @miss_art = "gorilla2.txt"
+    when 4
+      @miss_art = "gorilla3.txt"
+    when 5
+      @miss_art = "gorilla4.txt"
+    when 6
+      @miss_art = "gorilla5.txt"
+    end
+    return @miss_art
   end
-return @miss_art
-  end
-
-
 
 
   def display_art
     puts "\n\n\n\n"
     File.open(@miss_art) do |f|
-  f.each_line do |line|
-    #I added in the colorize gem so if you want color use line 4, else you can omit
-    line = line.colorize(:cyan)
-    print line
-    end
+      f.each_line do |line|
+        #I added in the colorize gem so if you want color use line 4, else you can omit
+        line = line.colorize(:cyan)
+        print line
+      end
     end
   end
 
@@ -78,11 +76,17 @@ return @miss_art
   end
 
   def take_guess
+    @guess_letter = gets.chomp
+    if @answer.count(@guess_letter) == 0
+      @misses << @guess_letter
+    end
+    return @guess_letter
   end
 end
 
 new_game = Game.new
 new_game.generate_prompt
+new_game.take_guess
 new_game.compare
 new_game.check_misses
 new_game.display_art
