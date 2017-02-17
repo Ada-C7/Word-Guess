@@ -1,6 +1,6 @@
 require 'colorize'
 class Game
-  attr_accessor :display, :guess_letter, :guesses, :misses, :miss_art
+  attr_accessor :display, :guess_letter, :guesses, :misses, :miss_art, :win
   attr_reader :answer
 
   def initialize
@@ -11,6 +11,8 @@ class Game
     @display = []
     @guess_letter = ""
     @miss_art = ""
+    generate_prompt
+
 
     # @show_index = show_index
   end
@@ -72,8 +74,9 @@ class Game
     end
   end
 
-  def display_key
-  end
+  #we had a dream....we wanted to show players their missed guesses
+  # def display_key
+  # end
 
   def take_guess
     @guess_letter = gets.chomp
@@ -82,13 +85,24 @@ class Game
     end
     return @guess_letter
   end
+
+  def play
+    while !@win
+      take_guess
+      compare
+      check_misses
+      display_art
+
+      if @display.count("_") == 0 && @misses.count != 5
+       puts "you win!"
+        @win = true
+      end
+    end
+  end
+
 end
 
 new_game = Game.new
-new_game.generate_prompt
-new_game.take_guess
-new_game.compare
-new_game.check_misses
-new_game.display_art
+new_game.play
 
 #new_game.print_prompt
