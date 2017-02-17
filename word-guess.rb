@@ -9,7 +9,8 @@
 # remove 1 flower at a time
 # when the game is over, give an user option to continue or quit
 
-
+require 'colorize'
+#require 'colorized_string'
 require 'Faker'
 class Game
   attr_reader  :random_word
@@ -19,7 +20,7 @@ class Game
 
   def empty_array?(array)
     array.each do |value|
-        return false if value != ""
+      return false if value != ""
     end
   end
 
@@ -30,14 +31,26 @@ class Game
     end
   end
 
+  def input_correct?(user_guess, random_word)
+    special = "@#%!*1234567890-=+()"
+    user_guess.length.times do |letter|
+      if !special.include?(user_guess[letter])
+        return true
+      end
+    end
+    if !(user_guess.length != 1 || user_guess.length != random_word.length)
+      return true
+    end
+  end
+
 
   def find_place (random_word, user_guess, array_of_underlines)
     random_word.each_with_index do |char, index|
-        if char == user_guess
-          array_of_underlines[index] = user_guess # put guessed letter in array of underlines
-          random_word[random_word.index(user_guess)] = ''
-        end
+      if char == user_guess
+        array_of_underlines[index] = user_guess # put guessed letter in array of underlines
+        random_word[random_word.index(user_guess)] = ''
       end
+    end
   end
 
   def play_game
@@ -50,19 +63,31 @@ class Game
       display_underlines(array_of_underlines)
       puts "\n Enter a letter or a full word:"
       flower = '
-        (@)(@)(@)(@)(@)
-          ,\,\,|,/,/,
-            _\|/_
-           |_____|
-            |   |
-            |___|'
+    (@)(@)(@)(@)(@)
+      ,\,\,|,/,/,
+         _\|/_
+        |_____|
+         |   |
+         |___|'.colorize(:red)
       stop_round = false # stop round of a game
+
       until stop_round
         puts flower
         user_guess = gets.chomp
+        if !input_correct?(user_guess, random_word)
+          puts "Letters only! Try Again!"
+          next
+        end
+
+        all_guesses = []
+        if all_guesses.include?(user_guess)
+          puts "Don't enter the same letter twice! Try again"
+          next
+        end
+        all_guesses.push(user_guess)
+
         if random_word.include? user_guess
           find_place(random_word, user_guess, array_of_underlines)
-
           display_underlines(array_of_underlines)
           # puts
           # print random_word
@@ -85,7 +110,7 @@ class Game
       if answer == "n"
         stop_game = true
       end
-  end # end of stop_game loop
+    end # end of stop_game loop
   end # end of method
 end # end of class
 game = Game.new
