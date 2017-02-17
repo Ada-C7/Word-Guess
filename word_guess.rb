@@ -1,14 +1,17 @@
 require 'colorize'
 class Game
-  attr_accessor :display, :guess_letter
+  attr_accessor :display, :guess_letter, :guesses, :misses, :miss_art
   attr_reader :answer
 
   def initialize
     @win = false
     @answer = ["a", "n", "s", "w", "w", "e", "r"]
     @guesses = []
+    @misses = ["f","t"]
     @display = []
     @guess_letter = "w"
+    @miss_at
+
     # @show_index = show_index
   end
   def compare
@@ -38,15 +41,37 @@ class Game
        print current_display
   end
 
-  def display_art(file_name)
+def check_misses
+misses = @misses.length
+  case misses
+  when 1
+    @miss_art = "gorilla.txt"
+  when 2
+    @miss_art = "gorilla1.txt"
+  when 3
+    @miss_art = "gorilla2.txt"
+  when 4
+    @miss_art = "gorilla3.txt"
+  when 5
+    @miss_art = "gorilla4.txt"
+  when 6
+    @miss_art = "gorilla5.txt"
+  end
+return @miss_art
+  end
+
+
+
+
+  def display_art
     puts "\n\n\n\n"
-    File.open(file_name) do |f|
+    File.open(@miss_art) do |f|
   f.each_line do |line|
     #I added in the colorize gem so if you want color use line 4, else you can omit
     line = line.colorize(:cyan)
     print line
-  end
-  end
+    end
+    end
   end
 
   def display_key
@@ -59,6 +84,7 @@ end
 new_game = Game.new
 new_game.generate_prompt
 new_game.compare
-new_game.display_art("gorilla.txt")
+new_game.check_misses
+new_game.display_art
 
 #new_game.print_prompt
