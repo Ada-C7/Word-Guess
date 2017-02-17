@@ -1,4 +1,8 @@
 require 'faker'
+require 'colorize'
+require 'colorized_string'
+
+require_relative 'frog_pictures'
 
 class WordGuess
 
@@ -12,7 +16,7 @@ class WordGuess
     @used_letters = []
     @wrong_letter_array = []
 
-    puts "Ready to have some word guessing fun? Try to guess the word before all the birds fly away. Let the games begin!"
+    puts "Ready to have some word guessing fun? Try to guess the word before all the frogs leap away. Let the games begin!"
 
     puts "This is the initial art!"
     puts
@@ -65,9 +69,10 @@ class WordGuess
     @used_letters << guess
 
     puts
+    puts "Here's what 'ya got so far:"
     @correct_word.each_char do |n|
       if @used_letters.include?(n)
-        print n
+        print n.colorize(:green)
         @correct_letter_array.delete(n)
       else
         print "_ "
@@ -77,17 +82,20 @@ class WordGuess
     if !(@correct_word.include?(guess))
       if !(@wrong_letter_array.include?(guess))
         @wrong_letter_array << guess
+      else
+        puts
+        puts "You tried #{guess.colorize(:red)} already"
       end
     end
     puts
-    puts "The wrong letters guessed are:"
+    puts "The letters you already used are:"
     @wrong_letter_array.each do |n|
-      print n
+      print n.colorize(:red)
     end
     puts
-
+    puts
     if game_end?
-      puts "Sorry, you used up all your guesses. All the frigs have leapt away and you are sitting aolne at an empty pond."
+      puts "Sorry, you used up all your guesses. All the frogs have leapt away and you are sitting aolne at an empty pond."
       continue_game
     end
 
