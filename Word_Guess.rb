@@ -5,17 +5,17 @@ library = ["HAI", "HAIRCUT", "POTATO"]
 
 # define class Turn and begin to elaborate methods
 class Game
-  # attr_accessor :win
+  attr_accessor :blanks
 
   def initialize(library)
     @library = library
     # @word_array
-
+    @blanks = []
     @counter = 0
     @win = false
 
     # self.select_word
-    # self.draw_board
+    # self.draw_blanks
     # self.draw_art
   end
 
@@ -35,23 +35,39 @@ class Game
     puts "What's your letter guess?"
     @guess = gets.chomp.upcase
     check_guess
+    #what happens if correct or not
+    #if correct .push array
+
+    draw_blanks
+
     update_guess_counter
     check_game_state
 
-    end
+
+
+    draw_art
 
   end
 
   def check_guess
     if @word_array.include?(@guess)
-      puts "Great job."
-    else
-      puts "false"
+      correct = true
+    else correct = false
+    end
+    return correct
   end
 
-  def draw_board
+  def draw_blanks
+    @word_array.length
+    @word_array.length.times do
+      @blanks << "_"
+    end
+    puts @blanks
   end
 
+
+  #draw unerscores
+  #replace underscores with letters
   def update_guess_counter
     @counter += 1
   end
@@ -67,12 +83,10 @@ class Game
       exit
     end
   end
-
   def draw_art
+
   end
-
 end
-
 game = Game.new(library)
 game.select_word
 game.turn
