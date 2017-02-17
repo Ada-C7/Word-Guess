@@ -23,11 +23,11 @@ end
 class Guess
   attr_reader :letter, :right_array, :wrong_array
 
-  def initialize (word_array, letter)
+  def initialize (word_array, letter, next_right_array, next_wrong_array)
     @word_array = word_array
     @letter = letter
-    @right_array = Array.new(word_array.length)
-    @wrong_array = Array.new(word_array.length)
+    @right_array = next_right_array
+    @wrong_array = next_wrong_array
   end
 
   def guess_right
@@ -39,38 +39,50 @@ class Guess
     @word_array.each do |character|
       if character == @letter
         index = @word_array.index(character)
-         @right_array.insert(index, @letter)
+        @right_array.delete_at(index)
+        @right_array.insert(index, @letter)
       end
     end
-    print @right_array
-    puts "right"
+    return @right_array
   end
 
   def guess_wrong
-    wrong_array << @letter
+    @wrong_array << @letter
+  return @wrong_array
   end
 
-  def win
-  end
-
-  def lose
-  end
 
 end
 
+# (word1.length).times do
+# print "-"
 
 
 word1 = SecretWord.new
+next_right_array = Array.new(word1.length, "_")
+next_wrong_array = Array.new(word1.length, "_")
+
 puts word1.word
 puts word1.to_array
-puts "give me a letter"
-user_letter = gets.chomp.upcase
-guess1 = Guess.new(word1.to_array, user_letter)
 
-#this is the conditional for guessing
-if word1.to_array.include?(user_letter)
-  guess1.guess_right
-else puts "wrong"
-# elsif puts "win"
-# else puts "lose"
+
+while next_right_array.include?("_")
+  #this is the conditional for guessing
+  puts "give me a letter"
+  user_letter = gets.chomp.upcase
+  guess1 = Guess.new(word1.to_array, user_letter, next_right_array, next_wrong_array)
+
+  if word1.to_array.include?(user_letter)
+    guess1.guess_right
+    next_right_array = guess1.guess_right
+    print next_right_array
+    print next_wrong_array
+  else
+    guess1.guess_wrong
+    next_wrong_array = guess1.guess_wrong
+    print next_right_array
+    print next_wrong_array
+  end
+  # elsif puts "win"
+  # else puts "lose"
 end
