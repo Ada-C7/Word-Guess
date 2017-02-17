@@ -11,56 +11,82 @@
 
 
 require 'Faker'
-
 class Game
-  attr_reader  :random_word, :random_word_letters,
+  attr_reader  :random_word
   def initialize
-    # @random_word = Faker::Color.color_name.split''
-    @flower = '
-    (@)(@)(@)(@)(@)
-    ,\,\,|,/,/,
-    _\|/_
-    |_____|
-    |   |
-    |___|'  #when we create instance variable it will appear
-
+    # @flower = '
+    #   (@)(@)(@)(@)(@)
+    #     ,\,\,|,/,/,
+    #       _\|/_
+    #      |_____|
+    #       |   |
+    #       |___|'
+    @counter = 0 # counts wrong guesses, if 5 - user lose
   end
-
-  def play_game
-    continue = false
-    until continue
-      random_word = Faker::Color.color_name.split''
-      puts @flower
-      number  = random_word.length
-      array_of_underlines = Array.new(number, "_ ")
-      print random_word
-      #puts "word:" + "_ " * number
-      print array_of_underlines
-      puts "Enter a letter or a word?"
-
-      stop = false
-      until stop
-        user_guess = gets.chomp
-        if random_word.include? user_guess
-          puts "Next?"
-          random_word.delete(user_guess)
-          puts random_word
-
-        end
-        if random_word.empty? || (user_guess.split'') == random_word
-          puts random_word
-          puts "Congratulations!"
-          stop = true
-
-        end
-      end
-      puts "Would you like to continue the game?(y/n)"
-      game_continue = gets.chomp
-      if game_continue == "n"
-        continue = true
-      end
+  def empty_array?(array)
+    array.each do |value|
+        return false if value != ""
     end
   end
-end
+  def play_game
+    stop_game = false
+    until stop_game
+      puts "Welcome to word guess game! "
+      random_word = Faker::Color.color_name.split''
+      print random_word
+      puts
+      array_of_underlines = Array.new(random_word.length, "_ ")
+      print "Word: "
+      array_of_underlines.each do |underline|
+        print underline
+      end
+      puts "\n Enter a letter or a full word:"
+      flower = '
+        (@)(@)(@)(@)(@)
+          ,\,\,|,/,/,
+            _\|/_
+           |_____|
+            |   |
+            |___|'
+      stop_round = false # stop round of a game
+      until stop_round
+        puts flower
+        user_guess = gets.chomp
+        if random_word.include? user_guess
+          # Find place in underline_array where to put guessed letter(s):
+          random_word.each_with_index do |char, index|
+              if char == user_guess
+                array_of_underlines[index] = user_guess # put guessed letter in array of underlines
+              end
+            end
+          random_word[random_word.index(user_guess)] = '' #change guessed letter in array to ''
+          print "Word: "
+          array_of_underlines.each do |underline|
+            print underline
+          end
+          puts
+          print random_word
+          puts
+        elsif !random_word.include? user_guess
+          @counter += 1
+          flower = flower.sub(/\(@\)/, '') # remove (@) from flower
+        end
+        if @counter == 5
+          puts "You lost a game"
+          stop_round = true
+        end
+        if empty_array?(random_word) || (user_guess.split'') == random_word
+          puts "You guessed a word!"
+          stop_round = true
+        end
+      end # end until stop_round loop
+      puts "Would you like to play one more time? (y/n)"
+      answer = gets.chomp
+      if answer == "n"
+        stop_game = true
+      end
+  end # end of stop_game loop
+  end # end of method
+end # end of class
 game = Game.new
 puts game.play_game
