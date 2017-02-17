@@ -46,6 +46,8 @@ class Game
   def check_misses
     misses = @misses.length
     case misses
+    when 0
+      @miss_art = "gorilla0.txt"
     when 1
       @miss_art = "gorilla.txt"
     when 2
@@ -79,6 +81,7 @@ class Game
   # end
 
   def take_guess
+    print "Guess a letter:"
     @guess_letter = gets.chomp
     if @answer.count(@guess_letter) == 0
       @misses << @guess_letter
