@@ -17,9 +17,8 @@ class Game
   end
 
   #TO DO
-  # display guessed letters in better way (no barfing)
   # all the restart stuff
-  # emptying guessed letters array
+
 
 def create_pond
   @pond = []
@@ -111,10 +110,6 @@ end
     run_turn
   end
 
-
-
-
-
   def continue_or_quit
     print "Would you like to play again? (yes/no) "
     user_response = gets.chomp
@@ -131,9 +126,7 @@ end
     else
       continue_or_quit
     end
-
   end
-
 
 
   def get_player_input
@@ -185,9 +178,6 @@ end
     end
     puts "checked game over status and no result"
   end
-
-
-
 
 
 end
