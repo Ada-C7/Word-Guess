@@ -17,13 +17,8 @@ class Game
   end
 
   #TO DO
-  # display pond
   # update @pond
   # display guessed letters
-
-
-
-
 
 def create_pond
   @pond = []
@@ -53,9 +48,27 @@ def display_pond
 end
 
 
-
-
 def update_pond
+#   when the counter changes
+#   move the frog over 1
+#   replace where it was with a lilypad
+
+  @pond.length.times do |n|
+    if n < @counter || n > @counter
+      @pond[n] = @lilypad
+    else
+      @pond[n] = @frog
+    end
+  end
+  
+  # PLEASE TELL US WHY THIS LOOP DIDN'T WORK
+  # @pond.each_with_index do |space, index|
+  #   if @counter == index
+  #     space = @frog
+  #   else
+  #     space = @lilypad
+  #   end
+  # end
   puts "updating pond"
 end
 
@@ -154,6 +167,7 @@ end
     else #wrong letter guess
       puts "wrong letter guess"
       @counter += 1
+      update_pond
       puts "counter is #{@counter}"
       puts "update pond gets called"
       # update_pond # frog position moves
