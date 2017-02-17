@@ -9,8 +9,8 @@ class Word
     end
 
     def dashes
+        @answer = []
         @stringword.length.to_i.times do
-            @answer = []
             @answer << '_'
             print @answer
         end
@@ -36,12 +36,13 @@ class Word
             if @arrayword.include?(@userguesses.last)
 
                 @arrayword.each_with_index do |_val, index|
-                    @answer[index] = if @arrayword[index] == @userguesses.last && !(@answer[index] == '_')
+                    @answer[index] = if @arrayword[index] == @userguesses.last
                                          @userguesses.last
-                                     else
-                                         '_'
-                                         end
-                    print @answer
+                                     elsif !(@answer[index] == '_')
+                                         @answer[index]
+                                     end
+
+                    @answer[index] = '_' if @answer[index].nil?
                 end
             else
                 puts 'Wrong!'
@@ -49,7 +50,7 @@ class Word
             end
             puts 'You have guessed ' + @userguesses.to_s + 'thus far'
             puts
-            print @answer.join(' ')
+            puts @answer.join(' ').upcase
             if @player_lives == 0
                 puts 'Boo!'
                 break
