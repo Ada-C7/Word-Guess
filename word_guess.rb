@@ -6,7 +6,9 @@ class Game
     @counter = 0
     @word = @words.sample
     @letters_guessed = []
-    get_player_input
+    @spaces = []
+    # get_player_input
+    continue_or_quit
   end
 
   def display_pond
@@ -47,20 +49,15 @@ class Game
     else
       continue_or_quit
     end
-    
+
   end
 
-  def run_game
-
-    # check for done
-      # if done
-        # win
-      # if not
-        # track counter possibly with while loop
-        # display_frog
-        # show_blanks
-        # get_player_input
-        # verify_guess_is_new
+  def run_turn
+    display_pond
+    display_spaces
+    get_player_input
+    check_if_game_over
+    run_turn
   end
 
 
@@ -96,9 +93,19 @@ class Game
       puts "update pond gets called"
       # update_pond # frog position moves
     end
-    get_player_input
   end
 
+  def check_if_game_over
+    if @counter == 5
+      puts "you ran out of guesses"
+      continue_or_quit
+    end
+    if @spaces.join == @word
+      puts "you win!"
+      continue_or_quit
+    end
+    puts "checked game over status and no result"
+  end
 
 
 
