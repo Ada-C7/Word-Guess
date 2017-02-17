@@ -1,3 +1,4 @@
+require 'Faker'
 class WordGuess
   attr_reader = :word, :guessed_array, :counter
   attr_accessor = :guess
@@ -17,14 +18,14 @@ class WordGuess
   def intro
     puts "WELCOME TO THE LOVEGOODS' COOL WORDGUESS GAME"
     puts ascii
-    puts @word_as_dashes.join # make this part print better and then commit
+    puts @word_as_dashes.join
     puts "Guess a letter! (parseltongue NOT accepted)"
     game
   end
 
   def gen_word
-   array_of_words = ["pug", "stumptown"] #"normcore", "pitchfork", "chillwave", "cardigan"]
-   @word = array_of_words[rand(0..1)]
+  #  array_of_words = ["ha rry", "wan d", "hog warts", "love good", "cl oak", "mug gle"]
+   @word = Faker::HarryPotter.character.downcase #array_of_words[rand(0..1)]
   end
 
   def ascii
@@ -53,9 +54,24 @@ o    :    *   * :\ -  o    +
 
   def word_dash
     @word_as_array = @word.chars
-    @word_as_array.each do
-      @word_as_dashes.push("_ ")
-    end
+    @word_as_array.each do |letter|
+      case
+        when letter == " "
+          @word_as_dashes.push("   ")
+          @guess = " "
+          self.update_dash
+        when letter == "."
+          @word_as_dashes.push(". ")
+          @guess = "."
+          self.update_dash
+        when  letter == ","
+          @word_as_dashes.push(", ")
+          @guess = ","
+          self.update_dash
+        else
+          @word_as_dashes.push("_ ")
+        end
+      end
   end
 
   def guess
@@ -85,7 +101,7 @@ o    :    *   * :\ -  o    +
     if @word_as_dashes.join == @word
       puts "YOU WON! YER A WIZARD, HARRY!"
     else
-      puts "Better luck next time, Malfoy."
+      puts "Better luck next time, Malfoy. You forgot about #{@word}!"
     end
 
   end
