@@ -4,14 +4,14 @@ class Word
     attr_reader :theword
 
     def initialize
-        @theword = 'ada' # Faker::Cat.name.downcase
+        @stringword = 'ada' # Faker::Cat.name.downcase
     end
 
     def dashes
-        @theword.length.to_i.times do
+        @stringword.length.to_i.times do
             @answer = []
             @answer << '_'
-            print '_ '
+            print @answer
         end
     end
 
@@ -19,22 +19,38 @@ class Word
         @letter = ''
 
         until ('a'..'z').cover?(@letter)
-            print "\nPlease guess a letter! (a..z): "
+            print "\nPlease guess a letter! (a..z):  "
             @letter = gets.chomp.downcase
         end
 
-        @userguess = []
-        @userguess << @letter
-        puts 'You have guessed ' + @userguess.to_s + 'thus far'
-        @gameword = @theword.split('')
+        @userguesses = []
+        @userguesses << @letter
+        puts
+        puts 'You have guessed ' + @userguesses.to_s + 'thus far'
+        @arrayword = @stringword.split('')
 
-        if @gameword.include?(@userguess.last)
+        if @arrayword.include?(@userguesses.last)
 
-            @gameword.each do |i|
-                @answer[i.to_i] = @userguess.last if @theword[i.to_i] == @userguess.last
+            @arrayword.each_with_index do |_val, index|
+                @answer[index] = if @arrayword[index] == @userguesses.last
+                                     @userguesses.last
+                                 else
+                                     '_'
+                                     end
+
+                print @answer.join(' ')
             end
         else
-            puts 'prolly broken'
+            puts 'Wrong!'
+        end
+    end
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*
+    private
+
+    def lose_life(letter)
+        if !@stringword.include?(@letter) && !@arrayword.include?(letter)
+            @player_lives = - 1
         end
     end
 end
