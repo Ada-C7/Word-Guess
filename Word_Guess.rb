@@ -1,26 +1,17 @@
-#correct boolean
-
-#provide library
-library = ["HAI", "HAIRCUT", "POTATO"]
-
-# define class Turn and begin to elaborate methods
 class Game
-  attr_accessor :blanks, :letter_positions
+attr_accessor :blanks, :word_array #:letter_positions
 
   def initialize(library)
     @library = library
-    # @word_array
-    @blanks = []
     @letter_positions = []
     @counter = 0
     @win = false
+    select_word
+    @board = Board.new(@word_array)
 
-    # self.select_word
-    # self.draw_blanks
-    # self.draw_art
   end
 
-  def select_word
+  def select_word #secret word
     #select word from library
     limit = @library.length
     chosen_word = @library[rand(limit)] #havent seen rand used this way, inside of array instead of "on array"
@@ -32,24 +23,35 @@ class Game
     puts @word_array
   end
 
+
   def turn #loop turn with conditionals
     puts "What's your letter guess?"
     @guess = gets.chomp.upcase
-    puts check_guess
-    puts @letter_positions
-    #what happens if correct or not
-    #if correct .push array
-
-    draw_blanks
-
-
-    check_game_state
+    if check_guess == true
+      right_guess
+    else
+      wrong_guess
+    end
+  end
 
 
+  def right_guess
+    @board.draw_blanks(@letter_positions)
+    # check_win
+    # def check_win
+    # end
+  end
 
-    draw_art
+
+  def wrong_guess
+    @board.draw_art(@counter)
+    if @counter > 5 # or.length(-however many)
+      puts "You lost."
+      exit
+    end
 
   end
+
 
   def check_guess
 
@@ -59,55 +61,54 @@ class Game
       end
     end
 
-
     if @letter_positions.length > 0
-        return true
+      return true
     else
       @counter += 1
       return false
     end
-    # return correct
-  end
-  #could/should update_guess_counter  be called in this method instead?
 
-  def draw_blanks
-    @word_array.length
-    @word_array.length.times do
+  end
+end
+
+class Board
+
+  def initialize(word_array)
+    @blanks = []
+    @word_array = word_array
+
+    @word_array.length.times do # game.word_array.length #draws matching number of blanks
       @blanks << "_"
     end
+  end
+
+  def draw_art(counter)
+    @current_counter = counter
+    #rerenders upon wrong guess
+    #max guesses is 5
+    #5 changes
+  end
+
+  def draw_blanks (letter_positions)
+    @current_positions = letter_positions
     #checking by position instead of contents
     @blanks.each_with_index do |blank, index|
-      if @letter_positions.include?(index)
+      if @current_positions.include?(index)
         print @word_array[index]
       else
         print blank + " "
       end
-  
+
     end
     print "\n"
   end
-
-
-  #draw unerscores
-  #replace underscores with letters
-
-
-  def check_game_state
-    # if all letters have been guessed
-    #@win? is true; game over
-
-    # if counter reaches maximum
-    #game is over
-    if @counter > 5 # or.length(-however many)
-      puts "You lost."
-      exit
-    end
-  end
-  def draw_art
-
-  end
 end
+
+#provide library
+library = ["HAI", "HAIRCUT", "POTATO"]
+
+
 game = Game.new(library)
-game.select_word
-game.turn
+
+
 game.turn
