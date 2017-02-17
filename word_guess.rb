@@ -1,3 +1,4 @@
+require 'colorize'
 class Game
   attr_accessor :display, :guess_letter
   attr_reader :answer
@@ -34,18 +35,19 @@ class Game
       @display.push("_")
     end
       current_display = @display.join(' ')
-      # print current_display
+       print current_display
   end
-  #
-  # def display_art
-  #   File.open(file_name) do |f|
-  # f.each_line do |line|
-  #   #I added in the colorize gem so if you want color use line 4, else you can omit
-  #   line = line.colorize(:cyan)
-  #   print line
-  # end
-  # end
-  # end
+
+  def display_art(file_name)
+    puts "\n\n\n\n"
+    File.open(file_name) do |f|
+  f.each_line do |line|
+    #I added in the colorize gem so if you want color use line 4, else you can omit
+    line = line.colorize(:cyan)
+    print line
+  end
+  end
+  end
 
   def display_key
   end
@@ -57,4 +59,6 @@ end
 new_game = Game.new
 new_game.generate_prompt
 new_game.compare
+new_game.display_art("gorilla.txt")
+
 #new_game.print_prompt
