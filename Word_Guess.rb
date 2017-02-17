@@ -1,52 +1,78 @@
 #correct boolean
+
+#provide library
+library = ["HAI", "HAIRCUT", "POTATO"]
+
 # define class Turn and begin to elaborate methods
 class Game
-  attr_accessor :win?
+  # attr_accessor :win
 
-  def initialize (word_array)
-    @win?
-    @guess
-    @counter
-    @word_array
+  def initialize(library)
+    @library = library
+    # @word_array
 
+    @counter = 0
+    @win = false
+
+    # self.select_word
+    # self.draw_board
+    # self.draw_art
+  end
+
+  def select_word
+    #select word from library
+    limit = @library.length
+    chosen_word = @library[rand(limit)]
+
+    #treat word as array of characters
+    @word_array = chosen_word.chars
+
+    # puts statements for testing
+    puts @word_array
   end
 
   def turn
+    puts "What's your letter guess?"
+    @guess = gets.chomp.upcase
+    check_guess
+    update_guess_counter
+    check_game_state
+
+    end
+
   end
 
   def check_guess
+    if @word_array.include?(@guess)
+      puts "Great job."
+    else
+      puts "false"
   end
 
-  def redraw_letter_blanks
+  def draw_board
   end
 
-  def update_counter
+  def update_guess_counter
+    @counter += 1
   end
 
-  def redraw_art
+  def check_game_state
+    # if all letters have been guessed
+    #@win? is true; game over
+
+    # if counter reaches maximum
+    #game is over
+    if @counter > 5
+      puts "You lost."
+      exit
+    end
+  end
+
+  def draw_art
   end
 
 end
-#library
 
-library = ["HAI", "HAIRCUT", "POTATO"]
-
-#select word from library
-limit = library.length
-
-chosen_word = library[rand(limit)]
-word_array = chosen_word.chars
-puts chosen_word
-puts word_array
-#ask user for guess
-
-puts "What's your letter guess?"
-guess1 = gets.chomp.upcase
-
-#compare guess against word/report correct or incorrect
-
-if chosen_word.include?(guess1)
-  puts "true"
-else
-  puts "false"
-end
+game = Game.new(library)
+game.select_word
+game.turn
