@@ -7,21 +7,12 @@ class WordGuess
   WORDS_ARRAY = [ "hello", "elephant", "gum", "glasses", "developer", "seattle", "sunshine"]
 
   def initialize
-
     @word = WORDS_ARRAY[rand(0..6)].upcase
     @flower = ["@ ","@ ","@ ","@ ","@ "]
-
     @chosen_word_array = @word.upcase.chars.to_a
-
     @correct_word = []
     @incorrect_letters = []
-    @word.length.times do
-      @correct_word << "_ "
-    end
-
-    @correct_word.each do |letter|
-      print letter
-    end
+    new_word
     @user_guess
     2.times do
       puts
@@ -29,7 +20,15 @@ class WordGuess
 
   end
 
-  def show_flower
+  def new_word
+    show_flower
+    @word.length.times do
+      @correct_word << "_ "
+    end
+    show_correct_word
+  end
+
+  def show_flower # displays leftover flower buds each round
     @flower.each do |bud|
       print bud
     end
@@ -42,13 +41,13 @@ class WordGuess
     puts
   end
 
-  def show_correct_word
+  def show_correct_word # displays correct letters or unguessed letters each round
     @correct_word.each do |letter|
       print "#{letter} "
     end
   end
 
-  def show_incorrect_guesses
+  def show_incorrect_guesses # displays incorrect inputs each guess
     puts "Incorrect Guesses: "
     @incorrect_letters.each do |letter|
       print letter + " "
@@ -77,7 +76,6 @@ class WordGuess
       @flower.pop
 
     end
-
     # displays leftover flower buds each round
     show_flower
     # displays correct letters or unguessed letters each round
@@ -101,7 +99,6 @@ puts "welcome to Word Guess!"
 puts "Here is your secret word you have to guess!"
 puts
 newgame = WordGuess.new
-newgame.show_flower
 
 while newgame.flower.length > 0
   puts "Please enter a letter: "
@@ -112,10 +109,3 @@ while newgame.flower.length > 0
 end
 puts "Your plant died and you have no more guesses!"
 puts "GAME OVER"
-
-# puts newgame.words
-
-
-# newgame.flower.each do |bud|
-#   print bud
-# end
