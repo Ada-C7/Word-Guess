@@ -9,14 +9,12 @@ WORDS_ARRAY = [ "hello", "elephant", "gum"]
   def initialize
 
     @word = WORDS_ARRAY[rand(0..2)]
-    @flower = []
-    @word.length.times do
-      @flower << "@ "
-    end
+    @flower = ["@ ","@ ","@ ","@ ","@ "]
 
-    # @flower.each do |bud|
-    #   print bud
-    # end
+
+    @flower.each do |bud|
+      print bud
+    end
 
     @correct_word = []
     @incorrect_letters = []
@@ -88,6 +86,6 @@ newgame.checking_letters
 # puts newgame.words
 
 
-newgame.flower.each do |bud|
-  print bud
-end
+# newgame.flower.each do |bud|
+#   print bud
+# end
