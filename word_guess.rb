@@ -1,11 +1,12 @@
 require 'colorize'
+require 'faker'
 class Game
   attr_accessor :display, :guess_letter, :guesses, :misses, :miss_art, :win
   attr_reader :answer
 
   def initialize
     @win = false
-    @answer = ["a", "n", "s", "w", "w", "e", "r"]
+    @answer = Faker::Color.color_name.split("")
     @guesses = []
     @misses = []
     @display = []
@@ -97,15 +98,25 @@ class Game
       display_art
 
       if @display.count("_") == 0 && @misses.count != 5
-       puts "you win!"
+        puts "you win!"
         @win = true
+      elsif  @misses.count == 6
+        File.open(@miss_art) do |f|
+          f.each_line do |line|
+            #I added in the colorize gem so if you want color use line 4, else you can omit
+            line = line.colorize(:cyan)
+            print line
+          end
+          puts "you lose!"
+          @win = true
+        end
       end
     end
   end
+  end
 
-end
 
-new_game = Game.new
-new_game.play
+  new_game = Game.new
+  new_game.play
 
-#new_game.print_prompt
+  #new_game.print_prompt
