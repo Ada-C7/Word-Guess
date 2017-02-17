@@ -6,77 +6,66 @@ class Board
 
   def create_board
 
-    def create_pond
-      @pond = []
-      @frog = "____🐸____"
-      @lilypad = "_________"
-      @pond = []
+    # CREATE POND
+    @pond = []
+    @frog = "____🐸____"
+    @lilypad = "_________"
+    @pond = []
 
-      @pond << @frog
-      4.times do
-        @pond << @lilypad
-      end
-      # puts @pond
+    @pond << @frog
+    4.times do
+      @pond << @lilypad
     end
 
-    def create_spaces
-      @spaces = []
-      @word.length.times do
-        @spaces << "__"
-      end
-      puts "created initial spaces"
+    # CREATE SPACES
+    @spaces = []
+    @word.length.times do
+      @spaces << "__"
     end
+    puts "created initial spaces"
 
   end
 
   def display_board
 
-    def display_pond
-      @pond.each do |space|
-        print space + "  "
-      end
-      puts
-
-      puts "displaying pond"
+    # DISPLAY pond
+    @pond.each do |space|
+      print space + "  "
     end
+    puts
+    puts "displaying pond"
 
-
-      def display_spaces
-        @spaces.each do |space|
-          print space + "\t"
-        end
-        puts
-        puts "displaying spaces"
-      end
+    # DISPLAY SPACES
+    @spaces.each do |space|
+      print space + "\t"
+    end
+    puts
+    puts "displaying spaces"
 
   end
 
   def update_board
 
-    def update_pond
-
-      @pond.length.times do |n|
-        if n < @counter || n > @counter
-          @pond[n] = @lilypad
-        else
-          @pond[n] = @frog
-        end
+    # UPDATE POND
+    @pond.length.times do |n|
+      if n < @counter || n > @counter
+        @pond[n] = @lilypad
+      else
+        @pond[n] = @frog
       end
-
-      # PLEASE TELL US WHY THIS LOOP DIDN'T WORK
-      # @pond.each_with_index do |space, index|
-      #   if @counter == index
-      #     space = @frog
-      #   else
-      #     space = @lilypad
-      #   end
-      # end
-      puts "updating pond"
     end
 
-  end
+    # PLEASE TELL US WHY THIS LOOP DIDN'T WORK
+    # @pond.each_with_index do |space, index|
+    #   if @counter == index
+    #     space = @frog
+    #   else
+    #     space = @lilypad
+    #   end
+    # end
+    puts "updating pond"
 
-  def update_spaces
+    # UPDATE SPACES
     puts "updating spaces"
     word_array = @word.split("")
     word_array.each_with_index do |letter, index |
@@ -84,7 +73,6 @@ class Board
         @spaces[index] = letter
       end
     end
-  end
 
 end
 # TO DO:
