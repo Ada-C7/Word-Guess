@@ -1,9 +1,12 @@
-
+require 'faker'
 
 class WordGuess
 
   def initialize
-    @correct_word =  ["potato", "america", "flower"].sample
+    @correct_word = (Faker::Color.unique.color_name)
+    while @correct_word.include?(" ")
+      @correct_word = (Faker::Color.unique.color_name)
+    end
 
     @correct_letter_array = []
 
