@@ -1,14 +1,16 @@
 require 'faker'
+#require 'ASCII'
 class GamePlay
   attr_reader :word_array, :letter_guess, :word_placeholders, :incorrect_guess
 
   def initialize
     puts "Enter a letter:"
     @letter_guess = gets.chomp
-    word = "green" #Faker::Color.color_name
+    word = "green" #[Faker::Color.color_name, Faker::Hacker.noun, Faker::Hacker.verb].sample
     @word_array = word.scan /\w/
     @word_placeholders = ("- "*@word_array.length).split(" ")
     @incorrect_guess = []
+    @chances_left = 5
     # print @word_placeholders
     # print @word_array #for testing
 
@@ -44,17 +46,25 @@ class GamePlay
     @incorrect_guess.push(@letter_guess)
   end
 
-  def update_result #passage of time
-    if check_letters?
-      puts "Good job!"
-      update_word
+  def update_result #passage of time #private?
+    if @chances_left > 0
+      if check_letters?
+        puts "Good job!"
+        update_word
+      else
+        puts "Wrong guess"
+        add_to_incorrect_guess_array
+        puts "These are all your wrong guesses #{@incorrect_guess}"
+        @chances_left -= 1
+        #remove a chance from ASCII
+      end
     else
-      puts "Wrong guess"
-      add_to_incorrect_guess_array
-      puts "These are all your wrong guesses #{@incorrect_guess}"
-      #remove a chance from ASCII
-    end
+      puts "Sorry! You weren't able to guess the right word."
+    exit
   end
+  end
+
+
 end
 
 # File.open(file_name) do |f|
