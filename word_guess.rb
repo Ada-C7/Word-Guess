@@ -17,18 +17,14 @@ class Game
   end
 
   #TO DO
-  # update @pond
   # display guessed letters
+  # all the restart stuff
+  # emptying guessed letters array
 
 def create_pond
   @pond = []
-  @frog = "
-     @..@   \n
-    (----)  \n
-   ( >__< ) \n
-   ^^ ~~ ^^ \n
-  ----------"
-  @lilypad = "----------"
+  @frog = "    🐸    \n---------"
+  @lilypad = "---------"
   @pond = []
 
   @pond << @frog
@@ -60,7 +56,7 @@ def update_pond
       @pond[n] = @frog
     end
   end
-  
+
   # PLEASE TELL US WHY THIS LOOP DIDN'T WORK
   # @pond.each_with_index do |space, index|
   #   if @counter == index
@@ -124,6 +120,8 @@ end
     user_response = gets.chomp
     case user_response
     when "yes"
+      @word = @words.sample
+      puts "word is #{@word}."
       create_pond
       create_spaces
       run_turn
