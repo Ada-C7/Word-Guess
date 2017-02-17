@@ -37,11 +37,14 @@ class User
       puts "That's not a valid input"
       prompt
     end
-
-    puts "Pick your theme:"
-    options.each do |option|
-      puts "#{option}"
-    end
+    rows_two = []
+    rows_two << ["Default"]
+    rows_two << ["Food".colorize(:pink)]
+    rows_two << ["Hacker".colorize(:green)]
+    rows_two << ["Game of Thrones".colorize(:red)]
+    rows_two << ["Lord of the Rings".colorize(:yellow)]
+    table_two = Terminal::Table.new :title => "Pick your theme!", :rows => rows_two
+    puts table_two
     @theme = gets.chomp.downcase
     word
   end
@@ -89,13 +92,14 @@ class GamePlay
   def graphic
     flower = []
     @counter.times do
-      flower << "(@)".colorize(:red)
+      flower << "(@) ".colorize(:red)
     end
 
 
     puts "#{flower.join}"
     puts
     puts "#{@puzzle_array.join}"
+    puts
   end
 
   def game_play
@@ -108,6 +112,7 @@ class GamePlay
 
   def guess
     puts "Enter a letter"
+    puts
     letter = gets.chomp
     if @word_array.include?(letter)
       @word_array.each_with_index do |char, index|
