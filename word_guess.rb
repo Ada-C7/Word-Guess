@@ -93,11 +93,13 @@ end
   end
 
   def display_guessed_letters
-    print "You have guessed: "
-    @letters_guessed[0..-2].each do |letter|
-      print "#{letter}, "
+    if @letters_guessed.length >0
+      print "You have guessed: "
+      @letters_guessed[0..-2].each do |letter|
+        print "#{letter}, "
+      end
+      print "#{@letters_guessed[-1]}.\n"
     end
-    print "#{@letters_guessed[-1]}.\n"
   end
 
   def run_turn
@@ -119,6 +121,7 @@ end
     case user_response
     when "yes"
       @word = @words.sample
+      @letters_guessed = []
       puts "word is #{@word}."
       create_pond
       create_spaces
