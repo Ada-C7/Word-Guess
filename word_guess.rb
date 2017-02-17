@@ -1,4 +1,5 @@
 require 'faker'
+require 'colorize'
 
 class WordGuess
 
@@ -6,27 +7,30 @@ class WordGuess
     # access scene through @@scenes[type][level][scene]
     @@scenes = {
       grass: [
-        File.read("bulbasaur.txt").split("next"),
-        File.read("ivysaur.txt").split("next"),
-        File.read("venusaur.txt").split("next")
+        File.read("ascii_art/bulbasaur.txt").split("next"),
+        File.read("ascii_art/ivysaur.txt").split("next"),
+        File.read("ascii_art/venusaur.txt").split("next")
       ],
       fire: [
-        File.read("charmander.txt").split("next"),
-        File.read("charmeleon.txt").split("next"),
-        File.read("charizard.txt").split("next")
+        File.read("ascii_art/charmander.txt").split("next"),
+        File.read("ascii_art/charmeleon.txt").split("next"),
+        File.read("ascii_art/charizard.txt").split("next")
       ],
       water: [
-        File.read("squirtle.txt").split("next"),
-        File.read("wartortle.txt").split("next"),
-        File.read("blastoise.txt").split("next")
+        File.read("ascii_art/squirtle.txt").split("next"),
+        File.read("ascii_art/wartortle.txt").split("next"),
+        File.read("ascii_art/blastoise.txt").split("next")
       ]
     }
 
+    # all possible characters
     @@characters = {
       grass: ["Bulbasaur", "Ivysaur", "Venusaur"],
       fire: ["Charmander", "Charmeleon", "Charizard"],
       water: ["Squirtle", "Wartortle", "Blastoise"]
     }
+    # map of type to colors
+    @@colors = { grass: :light_green, fire: :light_red, water: :cyan}
     @level = 0
     @type = type
   end
@@ -41,6 +45,7 @@ class WordGuess
     @user_progress = Array.new(@secret_word.length,"_")
     @character = @@characters[@type][@level]
     @scenes = @@scenes[@type][@level]
+    @color = @@colors[@type]
     @current_index = 0
     @bad_guesses = []
     @remaining_guesses = 5
@@ -51,8 +56,8 @@ class WordGuess
     print "\nMake a guess: "
     guess = gets.chomp.upcase
 
-    while @bad_guesses.include?(guess) || @user_progress.include?(guess)
-      puts "You already guessed that!"
+    while @bad_guesses.include?(guess) || @user_progress.include?(guess) || guess == ""
+      puts "You already guessed that!" unless guess == ""
       print "Guess again: "
       guess = gets.chomp.upcase
     end
@@ -83,7 +88,7 @@ class WordGuess
   end
 
   def display_board
-    puts @scenes[@current_index]
+    puts @scenes[@current_index].colorize(@color)
     puts @user_progress.join(" ")
     puts "Guesses: #{@bad_guesses.join(", ")}" if @bad_guesses.length > 0 && !winner?
     puts "Remaining Guesses: #{@remaining_guesses}" unless winner?
@@ -95,6 +100,19 @@ class WordGuess
 
   def loser?
     @remaining_guesses == 0
+  end
+
+  def win_game
+    puts "YOU WIN"
+    @level += 1
+    if @level == 3
+      puts "You fully evolved your #{@type} type pokemon! Go you!"
+      @@characters.delete(@type)
+      if @@characters.length == 0
+        puts "You have now evolved all the starter pokemon. You win the game!!"
+        exit
+      end
+    end
   end
 
   def ask_play_again
@@ -118,20 +136,9 @@ class WordGuess
       make_move
       if winner? || loser?
         display_board
-        if winner?
-          puts "YOU WIN"
-          @level += 1
-          if @level == 3
-            puts "You fully evolved your #{@type} type pokemon! Go you!"
-            @@characters.delete(@type)
-            if @@characters.length == 0
-              puts "You have now evolved all the starter pokemon. You win the game!!"
-              exit
-            end
-          end
-        elsif loser?
-          puts "YOU LOST IT WAS #{@secret_word} YOU FAILURE"
-        end
+        win_game if winner?
+        puts "YOU LOST IT WAS #{@secret_word} YOU FAILURE" if loser?
+
         ask_play_again
       end
     end
