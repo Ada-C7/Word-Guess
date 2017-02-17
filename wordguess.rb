@@ -72,7 +72,9 @@ o    :    *   * :\ -  o    +
     end
   end
 
-  # private ?
+  def game
+    while 
+  end
 
   def update_ascii
     # @ascii = @ascii.delete("*")
@@ -80,7 +82,11 @@ o    :    *   * :\ -  o    +
   end
 
   def update_dash
-    puts "dashes"
+    @word_as_array.each_with_index do |letter, index|
+      if letter == @guess
+        @word_as_dashes[index] = @guess
+      end
+    end
   end
 
   def update_guessed_letters
