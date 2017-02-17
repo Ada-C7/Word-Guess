@@ -17,14 +17,14 @@ class Game
   end
 
   #TO DO
-  # display guessed letters
+  # display guessed letters in better way (no barfing)
   # all the restart stuff
   # emptying guessed letters array
 
 def create_pond
   @pond = []
-  @frog = "    🐸    \n---------"
-  @lilypad = "---------"
+  @frog = "____🐸____"
+  @lilypad = "_________"
   @pond = []
 
   @pond << @frog
@@ -45,9 +45,6 @@ end
 
 
 def update_pond
-#   when the counter changes
-#   move the frog over 1
-#   replace where it was with a lilypad
 
   @pond.length.times do |n|
     if n < @counter || n > @counter
@@ -87,25 +84,26 @@ end
 
   def update_spaces
     puts "updating spaces"
-    #when we have a correct guess, find that letter in @word
-
     word_array = @word.split("")
     word_array.each_with_index do |letter, index |
       if  letter == @player_guess
         @spaces[index] = letter
       end
     end
-
-    # if player guess matches an index in @word, then put player_guess into the spaces variable at the same index
-
-
   end
 
+  def display_guessed_letters
+    print "You have guessed: "
+    @letters_guessed[0..-2].each do |letter|
+      print "#{letter}, "
+    end
+    print "#{@letters_guessed[-1]}.\n"
+  end
 
   def run_turn
     display_pond
     display_spaces
-    puts "you have guessed: #{@letters_guessed}."
+    display_guessed_letters
     get_player_input
     check_if_game_over
     run_turn
