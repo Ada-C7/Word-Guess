@@ -36,7 +36,7 @@ class GamePlay
 #   end
 
   def check_letters?
-    puts @word_array.any? { |guess_match| @letter_guess.include?(guess_match)}
+    return @word_array.any? { |guess_match| @letter_guess.include?(guess_match)}
   end
 
   # def add_to_correct_guess_array
@@ -47,13 +47,16 @@ class GamePlay
   #   #adds all our incorrect guesses, to the incorrect guess array
   # end
   #
-  # def update_result
-  #   #first go through words check, then update flower
-  #   #check_letters(guess)
-  #   #if te
-
-
+  def update_result #passage of time
+    if check_letters?
+      puts "Good job!"
+      update_word
+    else
+      puts "Wrong guess"
+      #remove a chance from ASCII
+    end
   end
+end
 
   # File.open(file_name) do |f|
   # f.each_line do |line|
@@ -62,5 +65,6 @@ class GamePlay
   #   print line
   # end
 new_game = GamePlay.new
-new_game.update_word
+#new_game.update_word
 # new_game.check_letters?
+new_game.update_result
