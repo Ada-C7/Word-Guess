@@ -1,21 +1,27 @@
+#by Tehut Getahun and Marisol Lopez
+
 require 'colorize'
 require 'faker'
 class Game
-  attr_accessor :display, :guess_letter, :guesses, :misses, :miss_art, :win, :answer, :word
-
+  attr_accessor :display, :guess_letter, :guesses, :misses, :miss_art, :win, :answer
+#  attr_reader :word
 
   def initialize
     @win = false
-    @answer =
+    @answer = ""
     @guesses = []
     @misses = []
     @display = []
     @guess_letter = ""
     @miss_art = ""
-    @word = ""
     generate_prompt
-  end
 
+  end
+  def make_answer
+    word = [Faker::Color.color_name.split(""),Faker::Space.planet.split(""),Faker::Team.creature.split("")].sample
+    @answer = word
+
+  end
   def generate_prompt
     length = @answer.length
     length.times do
@@ -25,10 +31,6 @@ class Game
     print current_display
   end
 
-  def make_answer
-    @word = [Faker::Color.color_name.split(""),Faker::Space.planet.split(""),Faker::Team.creature.split("")].sample
-    @answer = @word
-  end
 
 
 
@@ -110,7 +112,7 @@ class Game
             print line
           end
           puts "you lose!"
-          puts "The answer was: #{@word}"
+
           @win = true
         end
       end
@@ -118,8 +120,21 @@ class Game
   end
 end
 
-
+puts "Welcome to the Ada Academy Word Guess Game"
+File.open("gorilla-1.txt") do |f|
+  f.each_line do |line|
+    #I added in the colorize gem so if you want color use line 4, else you can omit
+    line = line.colorize(:cyan)
+    print line
+  end
+end
+print "Would you like to play word guess? y/n?"
+choice = gets.chomp
+if choice == "y"
 new_game = Game.new
 new_game.play
+else
+  puts "Well, thanks for visiting! Bye"
+end
 
 #new_game.print_prompt
