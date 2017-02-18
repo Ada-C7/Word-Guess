@@ -17,7 +17,7 @@ class WordGuess
     while @word_array.include?(' ')
       @word = Faker::Food.ingredient.downcase
       @word_array = @word.chars.to_a
-   end
+    end
 
     #creates rose buds and stem array according to allowed guess number
     @flower_array = Array.new(@num_allowed_guesses, "(@)")
@@ -32,9 +32,6 @@ class WordGuess
     #indicates if the user guesses the word correctly
     @word_guess = false
   end
-
-
-
 
   #display starts here - displays flowers and words before each guess
   def display
@@ -75,19 +72,18 @@ class WordGuess
       @game_over = true #game ends after first word guess
     else
       #letter case
-      #
       if @word_array.include?(guess_input) #checking good guess
         if @word_lines.include? guess_input #check reapeat on good guesses
           puts "We'll this one fly, but you already guessed this letter =]".colorize(:light_yellow).blink
         else
-        @word_array.each_with_index do |letter, index| # update word_array
-          if letter == guess_input
-            @word_lines[index] = guess_input
-          end
-          if @word_array == @word_lines
-            @game_over = true
-          end # end of game over indication
-        end #end of repeat word check
+          @word_array.each_with_index do |letter, index| # update word_array
+            if letter == guess_input
+              @word_lines[index] = guess_input
+            end
+            if @word_array == @word_lines
+              @game_over = true
+            end # end of game over indication
+          end #end of repeat word check
         end #end of good guess
       else #checking bad guess
         if @letter_guesses.include? guess_input
@@ -105,25 +101,10 @@ class WordGuess
     end # end of letter case conditional
     puts
   end
-
-  #
-  # def play
-  #   if @word_guess || (@num_allowed_guesses == 0 ) || ( @word_lines == @word_array )
-  #     display
-  #   else
-  #     display
-  #     guess
-  #   end
-  # end
-
-
-
 end
-
 
 #outside of class begins here
 #title ascii art
-
 def intro
 
   title_border = "
@@ -134,15 +115,15 @@ def intro
             ██║ █╗ ██║██║   ██║██████╔╝██║  ██║
             ██║███╗██║██║   ██║██╔══██╗██║  ██║
             ╚███╔███╔╝╚██████╔╝██║  ██║██████╔╝
-             ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝
+            ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝
   "
   title_guess = "
-         ██████╗ ██╗   ██╗███████╗███████╗███████╗
-        ██╔════╝ ██║   ██║██╔════╝██╔════╝██╔════╝
-        ██║  ███╗██║   ██║█████╗  ███████╗███████╗
-        ██║   ██║██║   ██║██╔══╝  ╚════██║╚════██║
-        ╚██████╔╝╚██████╔╝███████╗███████║███████║
-         ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚══════╝
+          ██████╗ ██╗   ██╗███████╗███████╗███████╗
+          ██╔════╝ ██║   ██║██╔════╝██╔════╝██╔════╝
+          ██║  ███╗██║   ██║█████╗  ███████╗███████╗
+          ██║   ██║██║   ██║██╔══╝  ╚════██║╚════██║
+          ╚██████╔╝╚██████╔╝███████╗███████║███████║
+          ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚══════╝
   "
   puts "\n#{title_border}"
   puts "#{title_word}"
@@ -174,59 +155,63 @@ def instruct(game)
   puts "So guess wisely!\n"
 end
 
+#method that performs one full game loop
+def single_play
+  difficulty_input = intro
+  game = WordGuess.new(difficulty_input)
+  instruct(game)
 
 
+  while !game.game_over
+    game.display
+    game.guess
+  end
 
-#
-# #outside of class begins here:
-# puts "Welcome to our Word Guess Game!"
-# while true
-#   print "Please select a diffilculty level (easy/hard): \n"
-#   difficulty_input = gets.chomp.downcase
-#   if ["easy", "hard"].include?(difficulty_input)
-#     break
-#   else
-#     puts "Try again! only enter 'easy', or 'hard'"
-#   end
-# end
-#def single_play
-difficulty_input = intro
-game = WordGuess.new(difficulty_input)
-instruct(game)
+  puts "                  End of the game summary"
+  puts "  ========================================================  "
+  if game.word_array == game.word_lines
+    puts "   Yay you guessed the word #{game.word} with #{game.num_allowed_guesses} guess(es) left.".colorize(:light_magenta)
+  else
+    puts "           The mystery word was #{game.word}."
+    puts "           You have #{game.num_allowed_guesses} guess(es) left."
+  end
+  title_border = "
+  ╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝"
+  end_banner = "
+            ██████╗  █████╗ ███╗   ███╗███████╗
+            ██╔════╝ ██╔══██╗████╗ ████║██╔════╝
+            ██║  ███╗███████║██╔████╔██║█████╗
+            ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝
+            ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗
+            ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
 
-
-while !game.game_over
-  game.display
-  game.guess
+            ██████╗ ██╗   ██╗███████╗██████╗
+            ██╔═══██╗██║   ██║██╔════╝██╔══██╗
+            ██║   ██║██║   ██║█████╗  ██████╔╝
+            ██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗
+            ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║
+            ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝"
+  puts "\n#{title_border}"
+  puts "#{end_banner}"
+  puts "#{title_border}"
 end
-puts "End of the game summary"
-puts "======================="
-if game.word_array == game.word_lines
-  puts "Yay you guessed the word #{game.word} with #{game.num_allowed_guesses} guess(es) left.".colorize(:light_magenta).blink
-else
-  puts "The mystery word was #{game.word}."
-  puts "You have #{game.num_allowed_guesses} guess(es) left."
+
+def play_again
+  while true
+    print "Would you like to play another round? (y/n): "
+    user_input = gets.chomp.downcase
+    if ['y','n', 'yes', 'no'].include?(user_input)
+      break
+    else
+      puts "Try again! Only enter 'y' or 'n'!".colorize(:light_yellow)
+    end
+  end
+  if ['n', 'no'].include?(user_input)
+    exit
+  end
 end
-title_border = "
-╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝"
-end_banner = "
-           ██████╗  █████╗ ███╗   ███╗███████╗
-          ██╔════╝ ██╔══██╗████╗ ████║██╔════╝
-          ██║  ███╗███████║██╔████╔██║█████╗
-          ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝
-          ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗
-           ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
 
-           ██████╗ ██╗   ██╗███████╗██████╗
-          ██╔═══██╗██║   ██║██╔════╝██╔══██╗
-          ██║   ██║██║   ██║█████╗  ██████╔╝
-          ██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗
-          ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║
-           ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝
-"
- puts "\n#{title_border}"
- puts "#{end_banner}"
- puts "#{title_border}"
- #end
-
-# single_play
+while true
+  single_play
+  play_again
+end
