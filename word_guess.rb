@@ -17,7 +17,7 @@ class WordGame
     # puts "#{@underscore_array.join(" ")}"
     @underscore_string = @underscore_array.join(" ")
     # puts "#{@word_array}"
-    puts "#{@word_array.join("")}"
+    # puts "#{@word_array.join("")}"
     @word_string = @word_array.join("")
   end
 
