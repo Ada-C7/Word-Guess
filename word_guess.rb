@@ -47,7 +47,8 @@ class WordGuess
     while @correct_letter_array != []
       turn
     end
-    "Congratulations! You guesst it! Your lilly pad is hopping."
+    puts "Congratulations! You guesst it! Your lilly pad is hopping!"
+    winning_image
     continue_game
   end
 
@@ -85,6 +86,10 @@ class WordGuess
 
     if !(@correct_word.include?(guess))
       if !(@wrong_letter_array.include?(guess))
+        puts
+        puts "OH NO! That's not in the word. A frog leaps away."
+        run_away_frog
+        puts
         @wrong_letter_array << guess
       else
         puts
@@ -100,7 +105,7 @@ class WordGuess
     frog(@wrong_letter_array.length)
     puts
     if game_end?
-      puts "Sorry, you used up all your guesses. All the frogs have leapt away and you are sitting aolne at an empty pond."
+      puts "Sorry, you used up all your guesses.\nAll the frogs have leapt away and you are sitting aolne at an empty pond!"
       continue_game
     end
 
