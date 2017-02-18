@@ -14,7 +14,7 @@ class WordGame
   # Method initialize
   def initialize
     #gsub is a string method that can take regex as an argument, in this case it will strip all spaces
-    @word = Faker::Color.unique.color_name.gsub(/\s+/,"").chars
+    @word = Faker::Color.unique.color_name.upcase.gsub(/\s+/,"").chars
     @max_guesses = 15
     @wrong_guesses = []
     @progress = Array.new(@word.length, "_")
@@ -27,6 +27,7 @@ def run_game
 
   word_game = WordGame.new
 
+
   welcome
   # loops through the steps of the game until user runs out of guesses
   # or they win
@@ -36,7 +37,7 @@ def run_game
     roses = pruning_roses(word_game.max_guesses)
     puts print_ascii_art(roses)
     winning?(word_game)
-    guess = prompt_user
+    guess = prompt_user(word_game)
     input_evaluation(guess, word_game)
     # clears the terminal screen so that it feels more like a game play
     # to the user (fun fact: doesn't work on Windows computer)
@@ -64,7 +65,7 @@ def print_ascii_art(roses)
    |   |
    |___|
   ".colorize(:yellow)
-  full_pot = roses + stems + pot
+  roses + stems + pot
 end
 
 # updating the number of rose buds according to failed attempts
@@ -107,11 +108,12 @@ def welcome
 end
 
 # Method to create initial prompt to the user
-def prompt_user
+def prompt_user(word_game)
+
   input = nil
   while input == nil
     puts "\nPlease guess a letter > "
-    input = gets.chomp
+    input = gets.chomp.upcase
     begin
       input = Integer(input)
     rescue ArgumentError
@@ -122,6 +124,10 @@ def prompt_user
     end
     if input != nil && input.length > 1
       puts "Please try just one letter at a time."
+      input = nil
+    end
+    if word_game.wrong_guesses.include?(input)
+      print "\nThat letter was already guessed: "
       input = nil
     end
   end
