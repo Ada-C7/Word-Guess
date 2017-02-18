@@ -58,7 +58,7 @@ class Game
 
  def play
    until @number_of_guesses == 0 || @word.current_status == @word.complete_word
-     puts @word.complete_word
+     #puts @word.complete_word
      puts "\nGuesses so far: #{@guesses.join(", ")}"
      draw_top(@number_of_guesses -1)
      draw_stem
