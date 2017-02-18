@@ -1,12 +1,12 @@
 require 'random_word_generator'
 require "colorize"
 
-
+# ckass word contains everything associated with letters
 class Word
-  # require 'random_word_generator'
 
   attr_reader :word, :word_in_progress, :guessed_letters
 
+# here the random word is created and blank templates generated
   def initialize(flower_pot)
     @word = RandomWordGenerator.of_length(5).upcase.split("")
     @word_in_progress = ["_", "_", "_", "_", "_"]
@@ -16,6 +16,8 @@ class Word
 
   end
 
+  # the central processing method of the class
+  # proofs letters and calls appropriate updates based on guess success
 
   def check_input(input)
 
@@ -25,17 +27,13 @@ class Word
       if @word.include? input
         update_word_in_progress(input)
         won?(@word_in_progress)
-        # puts "TEST Not won yet "
       else
-        # update_flower
         @flower_pot.update_ascii
-        # puts "TEST Here we are going to update flowers"
       end
 
     elsif input.length > 1
       won?(input.split(""))
       @flower_pot.update_ascii
-      # puts "TEST Here we are going to update flowers"
     end
     if @flower_pot.lost?
       puts "\n\n"
@@ -46,6 +44,7 @@ class Word
     print_all
   end
 
+# add the currently guessed letter to the guessed letters list
 def update_guessed_letters(input)
     if !@guessed_letters.include? input
       @guessed_letters << input
@@ -54,6 +53,7 @@ def update_guessed_letters(input)
   end
 
 
+# add correctly to word_in_progress
   def update_word_in_progress(letter)
     @word.length.times do |index|
       if @word[index] == letter
@@ -63,6 +63,7 @@ def update_guessed_letters(input)
     # puts "TEST Uppdated word in progress #{@word_in_progress.join(" ")}"
   end
 
+# check if guessed word matches the hidden word; exit if so
   def won?(word_guess)
     if word_guess == @word
       puts "\n #{@word.join(" ")}"
@@ -73,16 +74,7 @@ def update_guessed_letters(input)
     end
   end
 
-
-  # def lost?
-  #   if @flowers[0] == 0
-  #     return true
-  #   else
-  #     return false
-  #   end
-  # end
-
-
+# print the flower_pot, the word (with unguessed letters as _, and the letters that have been guessed)
   def print_all
     @flower_pot.print_flower
     puts "\n"
@@ -94,6 +86,7 @@ def update_guessed_letters(input)
 
 end
 
+# all methods associated with drawing the flower ascii
 class Flower
   def initialize
     @flowers = [5,4,0]
@@ -114,18 +107,12 @@ class Flower
     pot
   end
 
-
-
   def lost?
     if @flowers[0] == 0
       return true
     else
       return false
     end
-  end
-
-
-  def setup_ascii
   end
 
   def update_ascii
@@ -137,38 +124,20 @@ class Flower
       @flowers[0] -= 1
     end
   end
-
-
-
 end
 
 
-
-# test = Word.new
-#
-# print "Enter letter "
-# input = gets.chomp.upcase
-
-# test.update_guessed_letters(input)
-# test.update_word_in_progress(input)
-# test.check_input(input)
-
-test_flower = Flower.new
-test_word = Word.new(test_flower)
-
-while true
-  print "Enter letter "
-  input = gets.chomp.upcase
-  test_word.check_input(input)
-end
-
-
-
-
-# test_flower.print_flower
-# test_flower.update_ascii
-# test_flower.print_flower
-
+# user input loop to enter letters / a word
+# calls on class_word.check_input to perform appropriate actions
 def main
+  test_flower = Flower.new
+  test_word = Word.new(test_flower)
 
+  while true
+    print "Enter letter "
+    input = gets.chomp.upcase
+    test_word.check_input(input)
+  end
 end
+
+main
