@@ -2,8 +2,10 @@
 require 'colorize'
 require 'Faker'
 class Game
-  attr_reader  :random_word
-
+  attr_reader  :name
+ def initialize (name)
+   @name = name
+ end
   def empty_array?(array)
     array.each do |value|
       return false if value != ""
@@ -37,7 +39,7 @@ class Game
   def play_game
     stop_game = false
     until stop_game
-      puts "Welcome to word guess game! "
+      puts "Welcome to #{@name}! "
       random_word = Faker::Color.color_name.split''
       array_of_underlines = Array.new(random_word.length, "_ ")
       display_underlines(array_of_underlines)
@@ -91,5 +93,5 @@ class Game
     end # end of stop_game loop
   end # end of method
 end # end of class
-game = Game.new
+game = Game.new("Word Guess Game")
 puts game.play_game
