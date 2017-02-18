@@ -1,5 +1,5 @@
 class Game
-attr_accessor :blanks, :word_array #:letter_positions
+attr_accessor :counter #:letter_positions, :blanks,
 
   def initialize(library)
     @library = library
@@ -20,7 +20,7 @@ attr_accessor :blanks, :word_array #:letter_positions
     @word_array = chosen_word.chars
 
     # puts statements for testing
-    puts @word_array
+    # puts @word_array
   end
 
 
@@ -44,12 +44,12 @@ attr_accessor :blanks, :word_array #:letter_positions
 
 
   def wrong_guess
+    @counter += 1
     @board.draw_art(@counter)
     if @counter > 5 # or.length(-however many)
       puts "You lost."
       exit
     end
-
   end
 
 
@@ -58,17 +58,13 @@ attr_accessor :blanks, :word_array #:letter_positions
     @word_array.each_with_index do |letter, index|
       if letter == @guess
         @letter_positions << index
+        return true
+      else
+        return false
       end
     end
-
-    if @letter_positions.length > 0
-      return true
-    else
-      @counter += 1
-      return false
-    end
-
   end
+
 end
 
 class Board
@@ -105,10 +101,14 @@ class Board
 end
 
 #provide library
-library = ["HAI", "HAIRCUT", "POTATO"]
+library = ["HAI", "HAIRCUT", "POTATO", "PLUM", "SHIRK", "VITRIOL"]
 
 
 game = Game.new(library)
 
+# until game.counter > 5
+#   game.turn
+# end
 
+game.turn
 game.turn
