@@ -19,7 +19,7 @@ class WordGuess
     puts "Ready to have some word guessing fun? Try to guess the word before all the frogs leap away. Let the games begin!"
 
     frog(0)
-
+    
     puts
     puts "- " * @correct_word.length
 
@@ -55,10 +55,6 @@ class WordGuess
 
 
   def turn
-
-    #WILL NOT BE IN REAL games
-    puts "secret word = "+ @correct_word
-    #######
 
 
     puts "Please choose a letter:"
@@ -125,7 +121,6 @@ class WordGuess
       new_game = WordGuess.new
     end
   end
-
 
 
   private
