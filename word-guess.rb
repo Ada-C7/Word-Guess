@@ -1,5 +1,5 @@
 require 'faker'
-#require 'ASCII'
+
 class GamePlay
   attr_reader :word_array, :letter_guess, :word_placeholders, :incorrect_guess, :art
 
@@ -41,7 +41,7 @@ class GamePlay
         @incorrect_guess.push(@letter_guess)
       end
 
-      def update_result #passage of time #private?
+      def update_result
         until @chances_left == 0 do
           if check_letters?
             puts "Good job!"
@@ -55,7 +55,6 @@ class GamePlay
             add_to_incorrect_guess_array
             puts "These are all your wrong guesses #{@incorrect_guess}"
             @chances_left -= 1
-            #remove a chance from ASCII
           end
           case @chances_left
           when 4
@@ -82,7 +81,4 @@ class GamePlay
 
 
     new_game = GamePlay.new
-    #new_game.update_word
-    # new_game.check_letters?
     new_game.update_result
-    # new_game.display_image
