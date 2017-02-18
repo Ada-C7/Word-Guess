@@ -118,7 +118,7 @@ class WordGuess
     puts @user_progress.join(" ")
 
     #don't display bad guesses if there are none, or if user has won
-    puts "Guesses: #{@bad_guesses.join(", ")}" if @bad_guesses.length > 0 && !winner?
+    puts "\nBad Guesses: #{@bad_guesses.join(", ")}" if @bad_guesses.length > 0 && !winner?
 
     #don't display remaining guesses if user has won
     puts "\nRemaining Guesses: #{@remaining_guesses}" unless winner?
