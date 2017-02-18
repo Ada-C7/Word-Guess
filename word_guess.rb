@@ -1,11 +1,7 @@
 #Classes
 class Game
 
-  # def initialize
-  #   #SOMETHING NEEDS TO GO IN HERE?
-  # end
-
-  def create_new_game
+  def initialize
     get_word
     make_art
     make_marquee
@@ -103,7 +99,6 @@ end
 end
 
 new_game = Game.new
-new_game.create_new_game
 
 #CODE CALLED IN game_word
 # print "\nwhat is your guess?"
