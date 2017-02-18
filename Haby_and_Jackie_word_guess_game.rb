@@ -14,8 +14,7 @@ class WordGuess
     @incorrect_letters = []
     new_word
     @user_guess
-    puts
-    puts
+
   end
 
 
@@ -28,6 +27,7 @@ class WordGuess
   end
 
   def show_flower # displays leftover flower buds each round
+    puts
     @flower.each do |bud|
       print bud
     end
