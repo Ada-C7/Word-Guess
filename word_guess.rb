@@ -18,7 +18,8 @@ class WordGuess
 
     puts "Ready to have some word guessing fun? Try to guess the word before all the frogs leap away. Let the games begin!"
 
-    puts "This is the initial art!"
+    frog(0)
+
     puts
     puts "- " * @correct_word.length
 
@@ -53,9 +54,11 @@ class WordGuess
 
 
   def turn
+
     #WILL NOT BE IN REAL games
     puts "secret word = "+ @correct_word
     #######
+
 
     puts "Please choose a letter:"
     guess = gets.chomp.downcase
@@ -69,6 +72,7 @@ class WordGuess
     @used_letters << guess
 
     puts
+
     puts "Here's what 'ya got so far:"
     @correct_word.each_char do |n|
       if @used_letters.include?(n)
@@ -93,6 +97,7 @@ class WordGuess
       print n.colorize(:red)
     end
     puts
+    frog(@wrong_letter_array.length)
     puts
     if game_end?
       puts "Sorry, you used up all your guesses. All the frogs have leapt away and you are sitting aolne at an empty pond."
