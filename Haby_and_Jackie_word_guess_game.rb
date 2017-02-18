@@ -10,20 +10,19 @@ class WordGuess
     @word = WORDS_ARRAY[rand(0..6)].upcase
     @flower = ["@ ","@ ","@ ","@ ","@ "]
     @chosen_word_array = @word.upcase.chars.to_a
-    @correct_word = []
+    @secret_word = []
     @incorrect_letters = []
     new_word
     @user_guess
-    2.times do
-      puts
-    end
-
+    puts
+    puts
   end
 
-  def new_word
+
+  def new_word #Sets up initial secret word dashes
     show_flower
     @word.length.times do
-      @correct_word << "_ "
+      @secret_word << "_ "
     end
     show_correct_word
   end
@@ -42,7 +41,7 @@ class WordGuess
   end
 
   def show_correct_word # displays correct letters or unguessed letters each round
-    @correct_word.each do |letter|
+    @secret_word.each do |letter|
       print "#{letter} "
     end
   end
@@ -66,15 +65,12 @@ class WordGuess
     if @word.include?(@user_guess)
       @chosen_word_array.each_with_index do |letter, index|
         if letter == @user_guess
-          @correct_word[index] = letter
+          @secret_word[index] = letter
         end
-        # counter += 1
       end
-
     else
       @incorrect_letters << @user_guess
       @flower.pop
-
     end
     # displays leftover flower buds each round
     show_flower
@@ -88,7 +84,7 @@ class WordGuess
   end
   # end
   def check_word
-    if @chosen_word_array == @correct_word
+    if @chosen_word_array == @secret_word
       puts "You Guessed It!"
       exit
     end
