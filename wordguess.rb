@@ -24,8 +24,6 @@ class WordGuess
   end
 
   def gen_word
-  #  array_of_words = ["harry", "wand", "hogwarts", "lovegood", "cloak", "muggle"]
-  #  @word = array_of_words[rand(0..5)]
    @word = Faker::HarryPotter.character.downcase
   end
 
@@ -111,8 +109,6 @@ o    :    *   * :\ -  o    +
   end
 
   def update_ascii
-    # @ascii = @ascii.delete("*")
-    # puts "ascii"
     if @counter == 0
       puts ascii
     elsif @counter == 1
@@ -137,9 +133,7 @@ o    :    *   * :\ -  o    +
   end
 
   def update_guessed_letters
-    # puts "guessed letters"
     @guessed_array << @guess
-    # puts @guessed_array
   end
 
 def win
