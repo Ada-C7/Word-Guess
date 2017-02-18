@@ -1,4 +1,5 @@
 require "faker"
+require "colorize"
 
 class GuessWordGame
   attr_reader :word, :length, :word_array, :right_array, :wrong_array
@@ -12,7 +13,7 @@ class GuessWordGame
       @word = word.upcase
       @length = word.length
       @word_array = @word.scan /\w/
-      @right_array = Array.new(@length, "_")
+      @right_array = Array.new(@length, "__")
       @wrong_array = []
     end
   end
@@ -33,26 +34,64 @@ class GuessWordGame
     @wrong_array << @letter_guess
     case wrong_array.length
     when 1
-      puts "one wrong guess!"
+      puts "\n
+       _..._
+     .'   `::.
+    :       :::    WANING GIBBOUS
+    :       :::
+    `.     .::'
+      `-..:'' \n"
+
 
     when 2
-      puts "two wrong guesses!"
+      puts " \n
+     _..._
+   .'     `.
+  :         :    FULL MOON
+  :         :
+  `.       .'
+    `-...-'  \n"
     when 3
-      puts "three wrong guess!"
+      puts "\n
+       _..._
+     .::'   `.
+    :::       :    WAXING GIBBOUS
+    :::       :
+    `::.     .'
+      `':..-'    \n"
     when 4
-      puts "four wrong guess!"
+      puts "\n
+     _..._
+   .::::  `.
+  ::::::    :    FIRST QUARTER
+  ::::::    :
+  `:::::   .'
+    `'::.-'
+    \n"
     when 5
-      puts "five wrong guess!"
+      puts "\n
+       _..._
+     .::::. `.
+    :::::::.  :    WAXING CRESCENT
+    ::::::::  :
+    `::::::' .'
+      `'::'-' \n"
     when 6
-      puts "You lose! It was #{ @word }."
-      puts "
+      puts "\n
        _..._
      .:::::::.
     :::::::::::   NEW  MOON
     :::::::::::
     `:::::::::'
       `':::''"
-      ""
+      puts "\n
+██╗   ██╗ ██████╗ ██╗   ██╗    ██╗      ██████╗ ███████╗███████╗
+╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║     ██╔═══██╗██╔════╝██╔════╝
+ ╚████╔╝ ██║   ██║██║   ██║    ██║     ██║   ██║███████╗█████╗
+  ╚██╔╝  ██║   ██║██║   ██║    ██║     ██║   ██║╚════██║██╔══╝
+   ██║   ╚██████╔╝╚██████╔╝    ███████╗╚██████╔╝███████║███████╗
+   ╚═╝    ╚═════╝  ╚═════╝     ╚══════╝ ╚═════╝ ╚══════╝╚══════╝\n".colorize( :red )
+   puts "It was #{ @word }."
       exit
     end
     return @wrong_array
@@ -62,31 +101,56 @@ end
 
 
 
-puts "Welcome to our word guess game"
+puts "Welcome to our word guess game. Guess each letter of the word before the
+new moon!"
+puts "\n
+      _..._
+    .::::  `.
+   ::::::    :    FIRST QUARTER
+   ::::::    :
+   `:::::   .'
+     `'::.-'
+  "
 game1 = GuessWordGame.new
-puts game1.word # TAKE THIS OUT AT END
+# display secret word for testing
+# puts game1.word
 
-
-
-while game1.right_array.include?("_")
-  puts "Enter a letter: "
+while game1.right_array.include?("__")
+  print "\nEnter a letter: "
   game1.letter_guess = gets.chomp.upcase
-  # tried to get input verification working
-  # until (game1.letter_guess == /^[a-z]{1}$/) || (game1.wrong_array.include?(game1.letter_guess) == true)
-  #   puts "Try again and enter one letter: "
-  #   game1.letter_guess = gets.chomp.upcase
-  # end
+
+  while ! ( game1.letter_guess  =~  /^[A-Z]{1}$/ ) ||
+    game1.wrong_array.include?(game1.letter_guess) ||
+    game1.letter_guess.length > 1
+    print "Try again and enter one letter: "
+    game1.letter_guess = gets.chomp.upcase
+  end
 
     if game1.word_array.include?(game1.letter_guess)
       game1.guess_right
-      puts game1.right_array
-      puts game1.wrong_array
+      puts "Your current board:"
+      game1.right_array.each do |letter|
+        print "#{ letter }  "
+      end
+
+      puts "\nWrong letters you've guessed:"
+      game1.wrong_array.each do |letter|
+        print "#{ letter }, "
+      end
+
     else
       game1.guess_wrong
-      puts game1.right_array
-      puts game1.wrong_array
+      puts "\nYour current board:"
+      game1.right_array.each do |letter|
+        print "#{ letter }  "
+      end
+
+      puts "\nWrong letters you've guessed:"
+      game1.wrong_array.each do |letter|
+        print "#{ letter }, "
+      end
     end
 
 end
 
-puts "Cool! You won! :)"
+puts "\nCool! You won! :)"

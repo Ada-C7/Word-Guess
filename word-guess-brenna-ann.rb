@@ -32,9 +32,7 @@ class Guess
 
   def guess_right
     # checks guessed letter for frequency in word
-
-
-# below only adds the first index the letter appears in the word
+    # below only adds the first index the letter appears in the word
     index = nil
     @word_array.each do |character|
       if character == @letter
@@ -60,7 +58,7 @@ end
 
 word1 = SecretWord.new
 next_right_array = Array.new(word1.length, "_")
-next_wrong_array = Array.new(word1.length, "_")
+next_wrong_array = Array.new(6, "_")
 
 puts word1.word
 puts word1.to_array
