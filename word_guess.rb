@@ -5,7 +5,7 @@ class WordGame
 
   def initialize
     @lives = 9
-    @word = "anne"#Faker::Cat.unique.name.downcase
+    @word = Faker::Cat.unique.name.downcase
     @underscore_array = Array.new( @word.length, "_" )
     @word_array = @word.split("")
 
@@ -25,10 +25,17 @@ def big_loop
   print "Guess a letter or name: "
   @user_input = gets.chomp
 
+
   if @word_array.include? @user_input then
     @word_array.each_with_index do |letter, index|
+
       if letter == @user_input
         @underscore_array[index] = letter
+      end
+
+      if @underscore_array.join("") == @word_array.join("")
+        puts "\nYou win!"
+        exit
       end
     end
     ascii_art
@@ -43,7 +50,7 @@ def big_loop
     #compare complete arrays and give
     #you win prompt
   else
-    puts "You're SO wrong. You killed a cat."
+    puts "The cat ran away"
     @lives -= 1
     ascii_art
     if @lives == 0
