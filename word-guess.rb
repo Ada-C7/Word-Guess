@@ -3,12 +3,12 @@ require 'colorize'
 
 # define class
 class  WordGame
-  attr_accessor :answer_array, :empty_array, :wrong_guesses, :dead_flower
+  attr_accessor :answer_array, :empty_array, :wrong_guesses, :dead_flower, :answer
   attr_reader :answer
 
   def initialize
-    @answer
-    @guess
+    @answer = ""
+    @guess = ""
     @answer_array = []
     @wrong_guesses = []
     @empty_array = []
@@ -25,7 +25,7 @@ class  WordGame
     elsif level == "2" || level == "pokemon names"
       @answer = Faker::Pokemon.name.upcase
     elsif level == "3" || level == "lotr characters"
-      @answer = Faker::LordOfTheRings.characters.upcase
+      @answer = Faker::LordOfTheRings.character.upcase
     else
       select_level
     end
@@ -113,9 +113,9 @@ class  WordGame
     print "\nWould you like to play again? (YES/NO): "
     response = gets.chomp.downcase
 
-    if response == "yes"
+    if response == "yes" || "y"
       new_game = WordGame.new
-      puts new_game.run_game
+      puts new_game.select_level
     else
       puts "GOODBYE!"
       exit
