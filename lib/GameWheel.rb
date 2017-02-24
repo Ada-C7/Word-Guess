@@ -1,34 +1,5 @@
-class Wheel
-  attr_reader :slot
-
-  def initialize
-    @slots = [0,50,100,200,300,400,500,550,600]
-    @slot = @slots.sample
-  end
-
-  def spin_wheel
-    @slot = @slots.sample
-  end
-
-end
-
-class Player
-  attr_reader :name, :money
-
-  def initialize(name)
-    @name = name
-    @money = 0
-  end
-
-  def money
-    @money
-  end
-
-
-end
-
-class Game
-  attr_reader :wheel, :player
+class GameWheel
+  attr_reader :wheel, :player, :money
 
   def initialize
     @wheel = Wheel.new
@@ -112,8 +83,4 @@ class Game
     end
   end
 
-
 end
-
-new_game = Game.new
-new_game.welcome

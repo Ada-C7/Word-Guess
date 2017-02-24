@@ -1,0 +1,24 @@
+welcome_message
+start new Game
+print pond -- take out??
+print spaces
+print category
+buy vowel or spin or quit
+  if buy vowel
+    if vowel and
+    if not already guessed
+    check phrase for vowel
+      if present
+        multiply 100 * instances of the vowel
+        subtract that from the money
+        update board
+      else
+        sorry message
+        back to buy vowel or spin or quit
+      end
+    end
+  if spin
+    spin
+    if not bankrupt
+    get player input for guess (non vowel)
+    if present

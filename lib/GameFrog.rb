@@ -1,124 +1,8 @@
-require 'faker'
-
-class Word
-  attr_reader :new_word, :spaces
-  def initialize
-    @spaces = []
-    @new_word = Faker::Ancient.god.downcase
-    create_spaces
-  end
-
-  def new_word
-    @new_word
-  end
-
-  def spaces
-    @spaces
-  end
-
-  def update_spaces(player_guess)
-    # UPDATE SPACES
-    # puts "before updating spaces, spaces is #{@spaces}"
-    word_array = @new_word.split("")
-    word_array.each_with_index do |letter, index |
-      if letter == player_guess
-        @spaces[index] = letter
-      end
-    end
-  end
-
-  def create_spaces
-    # CREATE SPACES
-    @new_word.length.times do
-      @spaces << "__"
-    end
-    # puts "created initial spaces"
-  end
-
-  def display_spaces
-    # DISPLAY SPACES
-    puts
-    @spaces.each do |space|
-      print space + "  "
-    end
-    puts
-    # puts "displaying spaces"
-
-  end
-
-end # end of Word class
-
-class Pond
-
-  attr_accessor :counter
-
+class GameFrog
+  attr_accessor :word, :counter, :player_guess, :player, :wheel
 
   def initialize
-    @counter = 0
-    @pond = []
-    @frog = "____🐸____"
-    @lilypad = "_________"
-    # @player_guess = player_guess
-    create_pond
-  end
 
-  def create_pond
-
-    # CREATE POND
-    @pond << @frog
-    4.times do
-      @pond << @lilypad
-    end
-
-
-  end
-
-  def display_pond
-
-    # DISPLAY POND
-    puts
-    @pond.each do |space|
-      print space + "  "
-    end
-    puts
-    # puts "displaying pond"
-
-
-  end
-
-  def update_pond
-
-    # UPDATE POND
-    # puts "updating pond"
-
-    @pond.length.times do |n|
-      if n < @counter || n > @counter
-        @pond[n] = @lilypad
-      else
-        @pond[n] = @frog
-      end
-    end
-
-    # PLEASE TELL US WHY THIS LOOP DIDN'T WORK
-    # @pond.each_with_index do |space, index|
-    #   if @counter == index
-    #     space = @frog
-    #   else
-    #     space = @lilypad
-    #   end
-    # end
-
-
-    # puts "after updating, spaces is #{@spaces}"
-  end
-
-end
-
-
-class Game
-  attr_accessor :word, :counter, :player_guess
-
-  def initialize
     @letters_guessed = []
     @word = Word.new
     @pond = Pond.new
@@ -172,7 +56,7 @@ class Game
 
   def get_player_input
     print "\nPlease guess a letter: "
-    @player_guess = gets.chomp
+    @player_guess = gets.chomp.upcase
     puts "You guessed: #{@player_guess}."
     verify_guess_is_new
   end
@@ -205,9 +89,10 @@ class Game
   def check_if_game_over
     if @pond.counter == 5
       puts "The frog got away! You lose. Wah-wah."
+      puts "You were supposed to guess: #{@word.new_word}."
       continue_or_quit
     end
-    if @word.spaces.join == @word.new_word
+    if !@word.spaces.include?("_")
       puts "You win!"
       @pond.display_pond
       @word.display_spaces
@@ -218,6 +103,3 @@ class Game
 
 
 end
-
-new_game = Game.new
-new_game.welcome_message

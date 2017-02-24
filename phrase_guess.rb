@@ -10,16 +10,8 @@ class Word
       "Star Wars" => Faker::StarWars.quote,
       "Harry Potter" => Faker::HarryPotter.quote
     }
-    random_category = categories.keys.sample
-    puts "random_category is #{random_category}"
-    # puts "random_category.class is #{random_category.class}"
-    # @category = categories.select { |k,v| k if k == random_category }
-    # puts @category
-    categories[random_category] = @new_word
-    puts "new word is #{@new_word}"
-    # puts @category
-    # @new_word = categories[rand(0..categories.length-1)].upcase
-    # category = @new_word.key
+    @category = categories.keys.sample
+    @new_word = categories[@category].upcase
     create_spaces
   end
 
@@ -42,6 +34,20 @@ class Word
     end
   end
 
+  def fill_in_punctuation_spaces
+    word_array = @new_word.split("")
+    word_array.each_with_index do |character, index |
+      if ["?", "!", ",", ".", "-"].include?(character)
+        @spaces[index] = character
+      end
+    end
+  end
+
+  def display_category
+    puts
+    puts "CATEGORY: #{@category}"
+  end
+
   def create_spaces
     # CREATE SPACES
     words = @new_word.split(" ")
@@ -56,12 +62,7 @@ class Word
       @spaces << "_"
     end
 
-    word_array = @new_word.split("")
-    word_array.each_with_index do |character, index |
-      if ["?", "!", ",", ".", "-"].include?(character)
-        @spaces[index] = character
-      end
-    end
+    fill_in_punctuation_spaces
     # puts "@spaces is #{@spaces}"
     # puts "@spaces.length is #{@spaces.length}"
     # puts "created initial spaces"
@@ -75,7 +76,7 @@ class Word
     end
     puts
     # puts "displaying spaces"
-
+    display_category
   end
 
 end # end of Word class
