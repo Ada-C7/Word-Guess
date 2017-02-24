@@ -8,6 +8,12 @@ class GameWheel
     @vowels_bought = []
   end
 
+
+  def welcome
+    puts "Hi, #{@player.name}!"
+    buy_vowel_or_spin
+  end
+
   def fortune_strikes(slot)
     if slot == 0
       puts "Oh, no! You went bankrupt!"
@@ -17,10 +23,6 @@ class GameWheel
     end
   end
 
-  def welcome
-    puts "Hi, #{@player.name}!"
-    buy_vowel_or_spin
-  end
 
   def buy_vowel_or_spin
     print "\nWould you like to (b)uy a vowel, (s)pin the wheel, or (q)uit? "

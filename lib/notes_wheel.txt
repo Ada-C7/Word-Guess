@@ -1,24 +1,71 @@
 welcome_message
 start new Game
-print pond -- take out??
+  get new word
+  get new spaces
+  new wheel
+  new player -- 1 player version
 print spaces
 print category
 buy vowel or spin or quit
   if buy vowel
-    if vowel and
-    if not already guessed
+    if player has at least $100 &&
+    if vowel and if not already guessed
     check phrase for vowel
       if present
         multiply 100 * instances of the vowel
-        subtract that from the money
-        update board
+        subtract that from player's money
+        update spaces
+        check to see if the phrase is complete
+        if it is
+          print winning message
+          prompt to play new game or not
+          if yes
+            start new game
+          if no
+            exit
+          end
+        if it's not complete
+        print spaces & category & money
+        back to buy vowel/spin/quit
       else
         sorry message
         back to buy vowel or spin or quit
       end
     end
   if spin
-    spin
-    if not bankrupt
-    get player input for guess (non vowel)
-    if present
+    spin wheel to get slot
+    if slot is not the bankrupt one
+      get player input for guess (non vowel)
+      if letter is present
+        if it hasn't been guessed already
+          increase player's money by # of instances * slot amount
+          update spaces
+          print spaces & category & money
+        end
+      else if it's not there
+        sorry message
+        back to buy vowel or spin or quit
+      end
+    else if bankrupt
+      update money
+      back to buy vowel or spin or quit
+    end
+    check to see if the phrase is complete
+    if it is
+      print winning message
+      prompt to play new game or not
+      if yes
+        start new game
+      if no
+        exit
+      end
+    if it's not complete
+      back to buy vowel/spin/quit
+
+  else if quit
+    prompt to confirm quitting
+      if no
+        return to buy vowel/spin/quit
+      if yes
+        exit the game and tell player how much money they had
+  end
