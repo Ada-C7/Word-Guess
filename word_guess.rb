@@ -10,14 +10,10 @@ class Game
     @spaces = []
     @frog
     @lilypad
-    puts "word is #{@word}."
     create_pond
     create_spaces
     run_turn
   end
-
-  #TO DO
-  # all the restart stuff
 
 
 def create_pond
@@ -38,8 +34,6 @@ def display_pond
     print space + "  "
   end
   puts
-
-  puts "displaying pond"
 end
 
 
@@ -52,16 +46,6 @@ def update_pond
       @pond[n] = @frog
     end
   end
-
-  # PLEASE TELL US WHY THIS LOOP DIDN'T WORK
-  # @pond.each_with_index do |space, index|
-  #   if @counter == index
-  #     space = @frog
-  #   else
-  #     space = @lilypad
-  #   end
-  # end
-  puts "updating pond"
 end
 
 
@@ -70,7 +54,6 @@ end
     @word.length.times do
       @spaces << "__"
     end
-    puts "created initial spaces"
   end
 
   def display_spaces
@@ -78,11 +61,9 @@ end
       print space + "\t"
     end
     puts
-    puts "displaying spaces"
   end
 
   def update_spaces
-    puts "updating spaces"
     word_array = @word.split("")
     word_array.each_with_index do |letter, index |
       if  letter == @player_guess
@@ -117,7 +98,6 @@ end
     when "yes"
       @word = @words.sample
       @letters_guessed = []
-      puts "word is #{@word}."
       create_pond
       create_spaces
       run_turn
@@ -152,17 +132,10 @@ end
 
   def check_if_guess_is_right
     if @word.include? @player_guess #correct letter guess!
-      puts "correct letter guess"
-      puts "counter is #{@counter}"
       update_spaces
-      # update_spaces #update spaces with the letter
     else #wrong letter guess
-      puts "wrong letter guess"
       @counter += 1
       update_pond
-      puts "counter is #{@counter}"
-      puts "update pond gets called"
-      # update_pond # frog position moves
     end
   end
 
@@ -176,7 +149,6 @@ end
       display_spaces
       continue_or_quit
     end
-    puts "checked game over status and no result"
   end
 
 
